@@ -1,0 +1,1076 @@
+==========================================
+[2026-03-15 18:36:47] Starting: bun install
+==========================================
+[BUN] Installing dependencies...
+[1.06ms] ".env"
+bun install v1.3.10 (30e609e0)
+
++ @tailwindcss/postcss@4.1.18
++ @types/react@19.2.8
++ @types/react-dom@19.2.3
++ bun-types@1.3.6
++ eslint@9.39.2
++ eslint-config-next@16.1.3
++ tailwindcss@4.1.18
++ tw-animate-css@1.4.0
++ typescript@5.9.3
++ @dnd-kit/core@6.3.1
++ @dnd-kit/sortable@10.0.0
++ @dnd-kit/utilities@3.2.2
++ @hookform/resolvers@5.2.2
++ @mdxeditor/editor@3.52.3
++ @prisma/client@6.19.2
++ @radix-ui/react-accordion@1.2.12
++ @radix-ui/react-alert-dialog@1.1.15
++ @radix-ui/react-aspect-ratio@1.1.8
++ @radix-ui/react-avatar@1.1.11
++ @radix-ui/react-checkbox@1.3.3
++ @radix-ui/react-collapsible@1.1.12
++ @radix-ui/react-context-menu@2.2.16
++ @radix-ui/react-dialog@1.1.15
++ @radix-ui/react-dropdown-menu@2.1.16
++ @radix-ui/react-hover-card@1.1.15
++ @radix-ui/react-label@2.1.8
++ @radix-ui/react-menubar@1.1.16
++ @radix-ui/react-navigation-menu@1.2.14
++ @radix-ui/react-popover@1.1.15
++ @radix-ui/react-progress@1.1.8
++ @radix-ui/react-radio-group@1.3.8
++ @radix-ui/react-scroll-area@1.2.10
++ @radix-ui/react-select@2.2.6
++ @radix-ui/react-separator@1.1.8
++ @radix-ui/react-slider@1.3.6
++ @radix-ui/react-slot@1.2.4
++ @radix-ui/react-switch@1.2.6
++ @radix-ui/react-tabs@1.1.13
++ @radix-ui/react-toast@1.2.15
++ @radix-ui/react-toggle@1.1.10
++ @radix-ui/react-toggle-group@1.1.11
++ @radix-ui/react-tooltip@1.2.8
++ @reactuses/core@6.1.9
++ @tanstack/react-query@5.90.19
++ @tanstack/react-table@8.21.3
++ class-variance-authority@0.7.1
++ clsx@2.1.1
++ cmdk@1.1.1
++ date-fns@4.1.0
++ embla-carousel-react@8.6.0
++ framer-motion@12.26.2
++ input-otp@1.4.2
++ lucide-react@0.525.0
++ next@16.1.3
++ next-auth@4.24.13
++ next-intl@4.7.0
++ next-themes@0.4.6
++ prisma@6.19.2
++ react@19.2.3
++ react-day-picker@9.13.0
++ react-dom@19.2.3
++ react-hook-form@7.71.1
++ react-markdown@10.1.0
++ react-resizable-panels@3.0.6
++ react-syntax-highlighter@15.6.6
++ recharts@2.15.4
++ sharp@0.34.5
++ sonner@2.0.7
++ tailwind-merge@3.4.0
++ tailwindcss-animate@1.0.7
++ uuid@11.1.0
++ vaul@1.1.2
++ z-ai-web-dev-sdk@0.0.17
++ zod@4.3.5
++ zustand@5.0.10
+
+827 packages installed [11.57s]
+==========================================
+[2026-03-15 18:36:59] Completed: bun install
+[LOG] Step: bun install | Duration: 12s
+==========================================
+
+==========================================
+[2026-03-15 18:36:59] Starting: bun run db:push
+==========================================
+[BUN] Setting up database...
+$ prisma db push
+Environment variables loaded from .env
+Prisma schema loaded from prisma/schema.prisma
+Datasource "db": SQLite database "custom.db" at "file:/home/z/my-project/db/custom.db"
+
+SQLite database custom.db created at file:/home/z/my-project/db/custom.db
+
+🚀  Your database is now in sync with your Prisma schema. Done in 17ms
+
+Running generate... (Use --skip-generate to skip the generators)
+[2K[1A[2K[GRunning generate... - Prisma Client
+[2K[1A[2K[G✔ Generated Prisma Client (v6.19.2) to ./node_modules/@prisma/client in 65ms
+┌─────────────────────────────────────────────────────────┐
+│  Update available 6.19.2 -> 7.5.0                       │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+==========================================
+[2026-03-15 18:37:00] Completed: bun run db:push
+[LOG] Step: bun run db:push | Duration: 1s
+==========================================
+
+==========================================
+[2026-03-15 18:37:00] Starting: Starting Next.js dev server
+==========================================
+[BUN] Starting development server...
+==========================================
+[2026-03-15 18:37:00] Completed: Starting Next.js dev server
+[LOG] Step: Starting Next.js dev server | Duration: 0s
+==========================================
+
+==========================================
+$ next dev -p 3000 2>&1 | tee dev.log
+[2026-03-15 18:37:00] Starting: Waiting for Next.js dev server
+==========================================
+Waiting for Next.js dev server to be ready on localhost:3000...
+Attempt 1/60: Next.js dev server not ready yet, waiting...
+▲ Next.js 16.1.3 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://21.0.5.25:3000
+- Environments: .env
+
+✓ Starting...
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+
+  We detected TypeScript in your project and reconfigured your tsconfig.json file for you.
+  The following suggested values were added to your tsconfig.json. These values can be changed to fit your project's needs:
+
+  	- include was updated to add '.next/dev/types/**/*.ts'
+
+  The following mandatory changes were made to your tsconfig.json:
+
+  	- jsx was set to react-jsx (next.js uses the React automatic runtime)
+
+✓ Ready in 917ms
+Next.js dev server is ready!
+ GET / 200 in 2.8s (compile: 2.6s, render: 201ms)
+==========================================
+ GET / 200 in 2.8s (compile: 2.7s, render: 148ms)
+[2026-03-15 18:37:04] Completed: Waiting for Next.js dev server
+[LOG] Step: Waiting for Next.js dev server | Duration: 4s
+==========================================
+
+==========================================
+[2026-03-15 18:37:04] Starting: Health check
+==========================================
+[BUN] Performing health check...
+ GET / 200 in 21ms (compile: 1801µs, render: 19ms)
+[BUN] Health check passed
+==========================================
+[2026-03-15 18:37:04] Completed: Health check
+[LOG] Step: Health check | Duration: 0s
+==========================================
+
+==========================================
+[2026-03-15 18:37:04] Starting: Starting mini-services
+==========================================
+Found mini-services directory, scanning for sub-services...
+Mini-services startup completed. Started 0 service(s).
+==========================================
+[2026-03-15 18:37:04] Completed: Starting mini-services
+[LOG] Step: Starting mini-services | Duration: 0s
+==========================================
+
+Next.js dev server is running in background (PID: 325).
+Use 'kill 325' to stop it.
+✓ Compiled in 166ms
+ GET / 200 in 104ms (compile: 44ms, render: 60ms)
+ GET / 200 in 42ms (compile: 4ms, render: 38ms)
+ GET / 200 in 35ms (compile: 3ms, render: 32ms)
+ GET / 200 in 31ms (compile: 3ms, render: 28ms)
+✓ Compiled in 149ms
+ GET / 200 in 57ms (compile: 32ms, render: 25ms)
+⚠ Cross origin request detected from preview-chat-3eb8023b-c15c-4d6d-9763-d24c2324804f.space.z.ai to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+✓ Compiled in 351ms
+ GET / 200 in 54ms (compile: 30ms, render: 24ms)
+✓ Compiled in 226ms
+ GET / 200 in 106ms (compile: 4ms, render: 102ms)
+✓ Compiled in 238ms
+ GET / 200 in 69ms (compile: 41ms, render: 28ms)
+ GET / 200 in 13ms (compile: 2ms, render: 10ms)
+ GET / 200 in 14ms (compile: 1854µs, render: 12ms)
+ GET / 200 in 19ms (compile: 3ms, render: 16ms)
+ GET / 200 in 18ms (compile: 3ms, render: 15ms)
+ GET / 200 in 17ms (compile: 2ms, render: 15ms)
+ GET / 200 in 11ms (compile: 1697µs, render: 9ms)
+ GET / 200 in 13ms (compile: 2ms, render: 11ms)
+✓ Compiled in 168ms
+ GET / 200 in 56ms (compile: 30ms, render: 26ms)
+ GET / 200 in 12ms (compile: 1914µs, render: 10ms)
+ GET / 200 in 11ms (compile: 1548µs, render: 9ms)
+ GET / 200 in 13ms (compile: 1804µs, render: 11ms)
+ GET / 200 in 18ms (compile: 2ms, render: 16ms)
+ GET / 200 in 12ms (compile: 1562µs, render: 11ms)
+ GET / 200 in 11ms (compile: 1708µs, render: 9ms)
+ GET / 200 in 16ms (compile: 2ms, render: 14ms)
+ GET / 200 in 13ms (compile: 1672µs, render: 11ms)
+ GET / 200 in 12ms (compile: 1656µs, render: 10ms)
+ GET / 200 in 63ms (compile: 37ms, render: 26ms)
+ GET / 200 in 11ms (compile: 1636µs, render: 9ms)
+ GET / 200 in 12ms (compile: 1499µs, render: 10ms)
+ GET / 200 in 10ms (compile: 1299µs, render: 9ms)
+ GET / 200 in 12ms (compile: 2ms, render: 10ms)
+ GET / 200 in 10ms (compile: 1365µs, render: 9ms)
+ GET / 200 in 19ms (compile: 1515µs, render: 17ms)
+ GET / 200 in 12ms (compile: 1834µs, render: 11ms)
+ GET / 200 in 13ms (compile: 1746µs, render: 11ms)
+ GET / 200 in 16ms (compile: 1734µs, render: 14ms)
+ GET / 200 in 13ms (compile: 1914µs, render: 11ms)
+ GET / 200 in 12ms (compile: 1491µs, render: 11ms)
+ GET / 200 in 76ms (compile: 54ms, render: 22ms)
+ GET / 200 in 32ms (compile: 2ms, render: 30ms)
+ GET / 200 in 12ms (compile: 1611µs, render: 10ms)
+ GET / 200 in 9ms (compile: 1283µs, render: 8ms)
+ GET / 200 in 16ms (compile: 1857µs, render: 14ms)
+ GET / 200 in 17ms (compile: 2ms, render: 14ms)
+ GET / 200 in 11ms (compile: 1610µs, render: 9ms)
+ GET / 200 in 15ms (compile: 1523µs, render: 13ms)
+ GET / 200 in 21ms (compile: 2ms, render: 19ms)
+ GET / 200 in 11ms (compile: 1507µs, render: 10ms)
+ GET / 200 in 11ms (compile: 1538µs, render: 10ms)
+ GET / 200 in 13ms (compile: 1584µs, render: 12ms)
+ GET / 200 in 11ms (compile: 1551µs, render: 9ms)
+ GET / 200 in 10ms (compile: 1408µs, render: 9ms)
+ GET / 200 in 64ms (compile: 37ms, render: 27ms)
+ GET / 200 in 11ms (compile: 1588µs, render: 9ms)
+ GET / 200 in 11ms (compile: 1283µs, render: 10ms)
+ GET / 200 in 17ms (compile: 1457µs, render: 15ms)
+ GET / 200 in 16ms (compile: 3ms, render: 14ms)
+ GET / 200 in 10ms (compile: 1470µs, render: 8ms)
+ GET / 200 in 17ms (compile: 1439µs, render: 15ms)
+ GET / 200 in 11ms (compile: 1425µs, render: 9ms)
+ GET / 200 in 10ms (compile: 1539µs, render: 9ms)
+ GET / 200 in 12ms (compile: 1338µs, render: 11ms)
+ GET / 200 in 10ms (compile: 1400µs, render: 9ms)
+ GET / 200 in 11ms (compile: 1551µs, render: 9ms)
+ GET / 200 in 22ms (compile: 1468µs, render: 20ms)
+ GET / 200 in 12ms (compile: 1557µs, render: 10ms)
+ GET / 200 in 11ms (compile: 1815µs, render: 9ms)
+ GET / 200 in 10ms (compile: 1434µs, render: 9ms)
+ GET / 200 in 79ms (compile: 58ms, render: 21ms)
+✓ Compiled in 0ms
+ GET / 200 in 35ms (compile: 2ms, render: 32ms)
+ GET / 200 in 12ms (compile: 1799µs, render: 10ms)
+ GET / 200 in 10ms (compile: 1427µs, render: 9ms)
+ GET / 200 in 15ms (compile: 1917µs, render: 13ms)
+ GET / 200 in 17ms (compile: 1988µs, render: 15ms)
+ GET / 200 in 11ms (compile: 1488µs, render: 9ms)
+ GET / 200 in 15ms (compile: 1358µs, render: 13ms)
+ GET / 200 in 20ms (compile: 1894µs, render: 18ms)
+ GET / 200 in 10ms (compile: 1381µs, render: 9ms)
+ GET / 200 in 13ms (compile: 1453µs, render: 11ms)
+ GET / 200 in 14ms (compile: 1555µs, render: 13ms)
+ GET / 200 in 11ms (compile: 1598µs, render: 9ms)
+ GET / 200 in 11ms (compile: 1643µs, render: 9ms)
+ GET / 200 in 17ms (compile: 3ms, render: 14ms)
+ GET / 200 in 11ms (compile: 1838µs, render: 9ms)
+ GET / 200 in 11ms (compile: 1504µs, render: 9ms)
+ GET / 200 in 11ms (compile: 1535µs, render: 9ms)
+ GET / 200 in 59ms (compile: 34ms, render: 25ms)
+ GET / 200 in 12ms (compile: 1918µs, render: 10ms)
+ GET / 200 in 29ms (compile: 1821µs, render: 27ms)
+ GET / 200 in 12ms (compile: 1690µs, render: 11ms)
+ GET / 200 in 12ms (compile: 2ms, render: 10ms)
+ GET / 200 in 11ms (compile: 1667µs, render: 9ms)
+ GET / 200 in 11ms (compile: 1689µs, render: 10ms)
+ GET / 200 in 12ms (compile: 1892µs, render: 10ms)
+ GET / 200 in 12ms (compile: 2ms, render: 10ms)
+ GET / 200 in 18ms (compile: 2ms, render: 16ms)
+ GET / 200 in 11ms (compile: 1596µs, render: 9ms)
+ GET / 200 in 13ms (compile: 1606µs, render: 11ms)
+ GET / 200 in 12ms (compile: 1724µs, render: 11ms)
+ GET / 200 in 18ms (compile: 2ms, render: 16ms)
+ GET / 200 in 16ms (compile: 2ms, render: 13ms)
+ GET / 200 in 20ms (compile: 2ms, render: 18ms)
+ GET / 200 in 11ms (compile: 1735µs, render: 9ms)
+ GET / 200 in 11ms (compile: 1507µs, render: 9ms)
+ GET / 200 in 12ms (compile: 1714µs, render: 10ms)
+ GET / 200 in 13ms (compile: 1562µs, render: 11ms)
+ GET / 200 in 55ms (compile: 34ms, render: 21ms)
+ GET / 200 in 26ms (compile: 2ms, render: 23ms)
+ GET / 200 in 13ms (compile: 2ms, render: 11ms)
+ GET / 200 in 12ms (compile: 1823µs, render: 10ms)
+ GET / 200 in 18ms (compile: 2ms, render: 15ms)
+ GET / 200 in 18ms (compile: 2ms, render: 16ms)
+ GET / 200 in 12ms (compile: 1895µs, render: 10ms)
+ GET / 200 in 15ms (compile: 1626µs, render: 13ms)
+ GET / 200 in 18ms (compile: 2ms, render: 16ms)
+ GET / 200 in 11ms (compile: 1726µs, render: 9ms)
+ GET / 200 in 12ms (compile: 1767µs, render: 10ms)
+ GET / 200 in 13ms (compile: 1471µs, render: 11ms)
+ GET / 200 in 11ms (compile: 1569µs, render: 9ms)
+ GET / 200 in 11ms (compile: 1561µs, render: 10ms)
+ GET / 200 in 16ms (compile: 1456µs, render: 15ms)
+ GET / 200 in 10ms (compile: 1546µs, render: 9ms)
+ GET / 200 in 11ms (compile: 1505µs, render: 9ms)
+ GET / 200 in 11ms (compile: 1530µs, render: 9ms)
+ GET / 200 in 13ms (compile: 1560µs, render: 12ms)
+ GET / 200 in 18ms (compile: 3ms, render: 15ms)
+ GET / 200 in 16ms (compile: 1929µs, render: 14ms)
+ GET / 200 in 19ms (compile: 1998µs, render: 17ms)
+ GET / 200 in 44ms (compile: 28ms, render: 16ms)
+ GET / 200 in 16ms (compile: 2ms, render: 14ms)
+ GET / 200 in 15ms (compile: 2ms, render: 13ms)
+ GET / 200 in 11ms (compile: 1622µs, render: 10ms)
+ GET / 200 in 14ms (compile: 1531µs, render: 13ms)
+ GET / 200 in 10ms (compile: 1552µs, render: 9ms)
+ GET / 200 in 10ms (compile: 1491µs, render: 9ms)
+ GET / 200 in 13ms (compile: 1948µs, render: 11ms)
+ GET / 200 in 10ms (compile: 1275µs, render: 9ms)
+ GET / 200 in 13ms (compile: 1277µs, render: 12ms)
+ GET / 200 in 17ms (compile: 1945µs, render: 15ms)
+ GET / 200 in 10ms (compile: 1433µs, render: 8ms)
+ GET / 200 in 11ms (compile: 1953µs, render: 9ms)
+ GET / 200 in 15ms (compile: 2ms, render: 13ms)
+ GET / 200 in 12ms (compile: 1340µs, render: 11ms)
+ GET / 200 in 13ms (compile: 1847µs, render: 11ms)
+ GET / 200 in 16ms (compile: 5ms, render: 11ms)
+ GET / 200 in 10ms (compile: 1520µs, render: 9ms)
+ GET / 200 in 11ms (compile: 1505µs, render: 9ms)
+ GET / 200 in 11ms (compile: 1685µs, render: 9ms)
+ GET / 200 in 11ms (compile: 1466µs, render: 9ms)
+ GET / 200 in 16ms (compile: 1606µs, render: 14ms)
+ GET / 200 in 12ms (compile: 1703µs, render: 10ms)
+ GET / 200 in 10ms (compile: 1496µs, render: 9ms)
+ GET / 200 in 59ms (compile: 36ms, render: 23ms)
+ GET / 200 in 25ms (compile: 2ms, render: 23ms)
+ GET / 200 in 15ms (compile: 3ms, render: 12ms)
+ GET / 200 in 12ms (compile: 1471µs, render: 10ms)
+ GET / 200 in 16ms (compile: 2ms, render: 14ms)
+ GET / 200 in 18ms (compile: 2ms, render: 16ms)
+ GET / 200 in 13ms (compile: 2ms, render: 11ms)
+ GET / 200 in 15ms (compile: 1772µs, render: 14ms)
+ GET / 200 in 20ms (compile: 2ms, render: 18ms)
+ GET / 200 in 12ms (compile: 1858µs, render: 11ms)
+ GET / 200 in 17ms (compile: 2ms, render: 15ms)
+ GET / 200 in 15ms (compile: 1781µs, render: 13ms)
+ GET / 200 in 12ms (compile: 1921µs, render: 10ms)
+ GET / 200 in 13ms (compile: 3ms, render: 10ms)
+ GET / 200 in 18ms (compile: 1735µs, render: 16ms)
+ GET / 200 in 12ms (compile: 1630µs, render: 11ms)
+ GET / 200 in 12ms (compile: 1866µs, render: 10ms)
+ GET / 200 in 12ms (compile: 1545µs, render: 11ms)
+ GET / 200 in 15ms (compile: 2ms, render: 13ms)
+ GET / 200 in 22ms (compile: 2ms, render: 19ms)
+ GET / 200 in 16ms (compile: 2ms, render: 13ms)
+ GET / 200 in 23ms (compile: 2ms, render: 21ms)
+ GET / 200 in 11ms (compile: 1838µs, render: 10ms)
+ GET / 200 in 12ms (compile: 1752µs, render: 10ms)
+ GET / 200 in 14ms (compile: 1605µs, render: 12ms)
+ GET / 200 in 16ms (compile: 2ms, render: 13ms)
+✓ Compiled in 323ms
+⚠ ./src/app/page.tsx:1612:28
+Module not found: Can't resolve 'socket.io-client'
+[0m [90m 1610 |[39m   [36mconst[39m initSocket [33m=[39m [36masync[39m () [33m=>[39m {
+ [90m 1611 |[39m     [36mtry[39m {
+[31m[1m>[22m[39m[90m 1612 |[39m       [36mconst[39m { io } [33m=[39m [36mawait[39m [36mimport[39m([32m"socket.io-client"[39m)[33m;[39m
+ [90m      |[39m                            [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 1613 |[39m       [36mconst[39m tokenRes [33m=[39m [36mawait[39m fetch([32m"/api/auth/token"[39m)[33m;[39m
+ [90m 1614 |[39m       [36mconst[39m { token } [33m=[39m [36mawait[39m tokenRes[33m.[39mjson()[33m;[39m
+ [90m 1615 |[39m[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./src/app/page.tsx [Client Component Browser]
+    ./src/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/page.tsx [Client Component SSR]
+    ./src/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ GET / 200 in 109ms (compile: 93ms, render: 17ms)
+⚠ Fast Refresh had to perform a full reload when ./src/app/page.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+⚠ ./src/app/page.tsx:1612:28
+Module not found: Can't resolve 'socket.io-client'
+[0m [90m 1610 |[39m   [36mconst[39m initSocket [33m=[39m [36masync[39m () [33m=>[39m {
+ [90m 1611 |[39m     [36mtry[39m {
+[31m[1m>[22m[39m[90m 1612 |[39m       [36mconst[39m { io } [33m=[39m [36mawait[39m [36mimport[39m([32m"socket.io-client"[39m)[33m;[39m
+ [90m      |[39m                            [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 1613 |[39m       [36mconst[39m tokenRes [33m=[39m [36mawait[39m fetch([32m"/api/auth/token"[39m)[33m;[39m
+ [90m 1614 |[39m       [36mconst[39m { token } [33m=[39m [36mawait[39m tokenRes[33m.[39mjson()[33m;[39m
+ [90m 1615 |[39m[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./src/app/page.tsx [Client Component Browser]
+    ./src/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/page.tsx [Client Component SSR]
+    ./src/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ GET / 200 in 108ms (compile: 21ms, render: 87ms)
+⚠ ./src/app/page.tsx:1612:28
+Module not found: Can't resolve 'socket.io-client'
+[0m [90m 1610 |[39m   [36mconst[39m initSocket [33m=[39m [36masync[39m () [33m=>[39m {
+ [90m 1611 |[39m     [36mtry[39m {
+[31m[1m>[22m[39m[90m 1612 |[39m       [36mconst[39m { io } [33m=[39m [36mawait[39m [36mimport[39m([32m"socket.io-client"[39m)[33m;[39m
+ [90m      |[39m                            [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 1613 |[39m       [36mconst[39m tokenRes [33m=[39m [36mawait[39m fetch([32m"/api/auth/token"[39m)[33m;[39m
+ [90m 1614 |[39m       [36mconst[39m { token } [33m=[39m [36mawait[39m tokenRes[33m.[39mjson()[33m;[39m
+ [90m 1615 |[39m[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./src/app/page.tsx [Client Component Browser]
+    ./src/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/page.tsx [Client Component SSR]
+    ./src/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⚠ ./src/app/page.tsx:1612:28
+Module not found: Can't resolve 'socket.io-client'
+[0m [90m 1610 |[39m   [36mconst[39m initSocket [33m=[39m [36masync[39m () [33m=>[39m {
+ [90m 1611 |[39m     [36mtry[39m {
+[31m[1m>[22m[39m[90m 1612 |[39m       [36mconst[39m { io } [33m=[39m [36mawait[39m [36mimport[39m([32m"socket.io-client"[39m)[33m;[39m
+ [90m      |[39m                            [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 1613 |[39m       [36mconst[39m tokenRes [33m=[39m [36mawait[39m fetch([32m"/api/auth/token"[39m)[33m;[39m
+ [90m 1614 |[39m       [36mconst[39m { token } [33m=[39m [36mawait[39m tokenRes[33m.[39mjson()[33m;[39m
+ [90m 1615 |[39m[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./src/app/page.tsx [Client Component Browser]
+    ./src/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/page.tsx [Client Component SSR]
+    ./src/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ GET /api/auth/session 200 in 1082ms
+⚠ ./src/app/page.tsx:1612:28
+Module not found: Can't resolve 'socket.io-client'
+[0m [90m 1610 |[39m   [36mconst[39m initSocket [33m=[39m [36masync[39m () [33m=>[39m {
+ [90m 1611 |[39m     [36mtry[39m {
+[31m[1m>[22m[39m[90m 1612 |[39m       [36mconst[39m { io } [33m=[39m [36mawait[39m [36mimport[39m([32m"socket.io-client"[39m)[33m;[39m
+ [90m      |[39m                            [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 1613 |[39m       [36mconst[39m tokenRes [33m=[39m [36mawait[39m fetch([32m"/api/auth/token"[39m)[33m;[39m
+ [90m 1614 |[39m       [36mconst[39m { token } [33m=[39m [36mawait[39m tokenRes[33m.[39mjson()[33m;[39m
+ [90m 1615 |[39m[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./src/app/page.tsx [Client Component Browser]
+    ./src/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/page.tsx [Client Component SSR]
+    ./src/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⚠ ./src/app/page.tsx:1612:28
+Module not found: Can't resolve 'socket.io-client'
+[0m [90m 1610 |[39m   [36mconst[39m initSocket [33m=[39m [36masync[39m () [33m=>[39m {
+ [90m 1611 |[39m     [36mtry[39m {
+[31m[1m>[22m[39m[90m 1612 |[39m       [36mconst[39m { io } [33m=[39m [36mawait[39m [36mimport[39m([32m"socket.io-client"[39m)[33m;[39m
+ [90m      |[39m                            [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 1613 |[39m       [36mconst[39m tokenRes [33m=[39m [36mawait[39m fetch([32m"/api/auth/token"[39m)[33m;[39m
+ [90m 1614 |[39m       [36mconst[39m { token } [33m=[39m [36mawait[39m tokenRes[33m.[39mjson()[33m;[39m
+ [90m 1615 |[39m[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./src/app/page.tsx [Client Component Browser]
+    ./src/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/page.tsx [Client Component SSR]
+    ./src/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[next-auth][warn][NEXTAUTH_URL] 
+https://next-auth.js.org/warnings#nextauth_url
+ GET /api/auth/session 200 in 418ms (compile: 374ms, render: 44ms)
+ POST /api/auth/_log 200 in 1402ms (compile: 1354ms, render: 47ms)
+✓ Compiled in 794ms
+ GET / 200 in 73ms (compile: 50ms, render: 23ms)
+ GET / 200 in 54ms (compile: 29ms, render: 25ms)
+ GET / 200 in 14ms (compile: 3ms, render: 12ms)
+ GET / 200 in 20ms (compile: 5ms, render: 15ms)
+ GET / 200 in 16ms (compile: 3ms, render: 14ms)
+ GET / 200 in 24ms (compile: 6ms, render: 17ms)
+ GET / 200 in 12ms (compile: 2ms, render: 10ms)
+ GET / 200 in 16ms (compile: 3ms, render: 13ms)
+ GET / 200 in 20ms (compile: 4ms, render: 16ms)
+ GET / 200 in 21ms (compile: 4ms, render: 18ms)
+ GET / 200 in 20ms (compile: 4ms, render: 16ms)
+ GET / 200 in 21ms (compile: 3ms, render: 19ms)
+ GET / 200 in 21ms (compile: 4ms, render: 17ms)
+ GET / 200 in 16ms (compile: 5ms, render: 11ms)
+ GET / 200 in 21ms (compile: 6ms, render: 15ms)
+ GET / 200 in 25ms (compile: 6ms, render: 19ms)
+ GET / 200 in 13ms (compile: 3ms, render: 11ms)
+ GET / 200 in 15ms (compile: 3ms, render: 13ms)
+ GET / 200 in 21ms (compile: 7ms, render: 14ms)
+ GET / 200 in 24ms (compile: 6ms, render: 18ms)
+ GET / 200 in 13ms (compile: 3ms, render: 10ms)
+ GET / 200 in 12ms (compile: 3ms, render: 10ms)
+ GET / 200 in 14ms (compile: 3ms, render: 11ms)
+ GET / 200 in 22ms (compile: 3ms, render: 19ms)
+ GET / 200 in 12ms (compile: 2ms, render: 10ms)
+ GET / 200 in 13ms (compile: 3ms, render: 11ms)
+ GET / 200 in 16ms (compile: 3ms, render: 13ms)
+ GET / 200 in 18ms (compile: 3ms, render: 15ms)
+ GET / 200 in 13ms (compile: 3ms, render: 10ms)
+ GET / 200 in 60ms (compile: 29ms, render: 31ms)
+ GET / 200 in 15ms (compile: 3ms, render: 12ms)
+ GET / 200 in 11ms (compile: 2ms, render: 9ms)
+ GET / 200 in 11ms (compile: 2ms, render: 9ms)
+ GET / 200 in 17ms (compile: 3ms, render: 14ms)
+ GET / 200 in 11ms (compile: 2ms, render: 9ms)
+ GET / 200 in 12ms (compile: 2ms, render: 10ms)
+ GET / 200 in 10ms (compile: 2ms, render: 8ms)
+ GET / 200 in 14ms (compile: 2ms, render: 11ms)
+ GET / 200 in 11ms (compile: 2ms, render: 9ms)
+ GET / 200 in 12ms (compile: 3ms, render: 9ms)
+ GET / 200 in 13ms (compile: 3ms, render: 9ms)
+ GET / 200 in 13ms (compile: 3ms, render: 10ms)
+ GET / 200 in 11ms (compile: 2ms, render: 9ms)
+ GET / 200 in 12ms (compile: 2ms, render: 9ms)
+ GET / 200 in 18ms (compile: 3ms, render: 15ms)
+ GET / 200 in 13ms (compile: 3ms, render: 10ms)
+ GET / 200 in 14ms (compile: 3ms, render: 11ms)
+ GET / 200 in 13ms (compile: 3ms, render: 10ms)
+ GET / 200 in 18ms (compile: 5ms, render: 12ms)
+ GET / 200 in 12ms (compile: 3ms, render: 10ms)
+ GET / 200 in 12ms (compile: 3ms, render: 10ms)
+ GET / 200 in 25ms (compile: 3ms, render: 22ms)
+ GET / 200 in 15ms (compile: 3ms, render: 12ms)
+ GET / 200 in 13ms (compile: 3ms, render: 10ms)
+ GET / 200 in 14ms (compile: 5ms, render: 9ms)
+ GET / 200 in 17ms (compile: 3ms, render: 14ms)
+ GET / 200 in 19ms (compile: 6ms, render: 13ms)
+ GET / 200 in 21ms (compile: 6ms, render: 15ms)
+ GET / 200 in 27ms (compile: 6ms, render: 21ms)
+ GET / 200 in 60ms (compile: 37ms, render: 23ms)
+ GET / 200 in 32ms (compile: 8ms, render: 24ms)
+ GET / 200 in 16ms (compile: 3ms, render: 13ms)
+ GET / 200 in 22ms (compile: 6ms, render: 16ms)
+ GET / 200 in 13ms (compile: 3ms, render: 10ms)
+ GET / 200 in 23ms (compile: 6ms, render: 17ms)
+ GET / 200 in 13ms (compile: 3ms, render: 10ms)
+ GET / 200 in 15ms (compile: 3ms, render: 12ms)
+ GET / 200 in 13ms (compile: 3ms, render: 10ms)
+ GET / 200 in 21ms (compile: 4ms, render: 17ms)
+ GET / 200 in 15ms (compile: 4ms, render: 11ms)
+ GET / 200 in 13ms (compile: 3ms, render: 10ms)
+ GET / 200 in 12ms (compile: 2ms, render: 9ms)
+ GET / 200 in 15ms (compile: 3ms, render: 12ms)
+ GET / 200 in 13ms (compile: 3ms, render: 11ms)
+ GET / 200 in 18ms (compile: 3ms, render: 15ms)
+ GET / 200 in 14ms (compile: 3ms, render: 12ms)
+ GET / 200 in 12ms (compile: 3ms, render: 10ms)
+ GET / 200 in 20ms (compile: 6ms, render: 14ms)
+ GET / 200 in 25ms (compile: 6ms, render: 18ms)
+ GET / 200 in 13ms (compile: 3ms, render: 10ms)
+ GET / 200 in 13ms (compile: 3ms, render: 10ms)
+ GET / 200 in 20ms (compile: 6ms, render: 13ms)
+ GET / 200 in 24ms (compile: 6ms, render: 18ms)
+ GET / 200 in 13ms (compile: 3ms, render: 10ms)
+ GET / 200 in 13ms (compile: 3ms, render: 10ms)
+ GET / 200 in 12ms (compile: 3ms, render: 10ms)
+ GET / 200 in 22ms (compile: 3ms, render: 19ms)
+ GET / 200 in 13ms (compile: 3ms, render: 10ms)
+ GET / 200 in 13ms (compile: 3ms, render: 10ms)
+ GET / 200 in 14ms (compile: 3ms, render: 11ms)
+ GET / 200 in 17ms (compile: 3ms, render: 15ms)
+ GET / 200 in 59ms (compile: 45ms, render: 14ms)
+ GET / 200 in 16ms (compile: 2ms, render: 14ms)
+ GET / 200 in 32ms (compile: 3ms, render: 29ms)
+ GET / 200 in 13ms (compile: 2ms, render: 11ms)
+ GET / 200 in 11ms (compile: 2ms, render: 9ms)
+ GET / 200 in 13ms (compile: 4ms, render: 9ms)
+ GET / 200 in 12ms (compile: 2ms, render: 10ms)
+ GET / 200 in 11ms (compile: 2ms, render: 9ms)
+ GET / 200 in 11ms (compile: 2ms, render: 9ms)
+ GET / 200 in 15ms (compile: 2ms, render: 13ms)
+ GET / 200 in 11ms (compile: 2ms, render: 8ms)
+ GET / 200 in 12ms (compile: 3ms, render: 9ms)
+ GET / 200 in 12ms (compile: 2ms, render: 10ms)
+ GET / 200 in 11ms (compile: 2ms, render: 9ms)
+ GET / 200 in 11ms (compile: 3ms, render: 8ms)
+ GET / 200 in 12ms (compile: 2ms, render: 10ms)
+ GET / 200 in 11ms (compile: 2ms, render: 9ms)
+ GET / 200 in 11ms (compile: 2ms, render: 9ms)
+ GET / 200 in 12ms (compile: 2ms, render: 10ms)
+ GET / 200 in 11ms (compile: 2ms, render: 8ms)
+ GET / 200 in 11ms (compile: 2ms, render: 8ms)
+ GET / 200 in 17ms (compile: 2ms, render: 15ms)
+ GET / 200 in 12ms (compile: 2ms, render: 10ms)
+ GET / 200 in 14ms (compile: 3ms, render: 11ms)
+ GET / 200 in 11ms (compile: 2ms, render: 8ms)
+ GET / 200 in 14ms (compile: 2ms, render: 11ms)
+ GET / 200 in 17ms (compile: 4ms, render: 13ms)
+ GET / 200 in 18ms (compile: 6ms, render: 12ms)
+ GET / 200 in 24ms (compile: 6ms, render: 18ms)
+ GET / 200 in 12ms (compile: 3ms, render: 10ms)
+ GET / 200 in 13ms (compile: 3ms, render: 10ms)
+ GET / 200 in 16ms (compile: 3ms, render: 13ms)
+ GET / 200 in 18ms (compile: 6ms, render: 13ms)
+ GET / 200 in 19ms (compile: 6ms, render: 13ms)
+ GET / 200 in 56ms (compile: 35ms, render: 21ms)
+ GET / 200 in 20ms (compile: 6ms, render: 14ms)
+ GET / 200 in 14ms (compile: 3ms, render: 12ms)
+ GET / 200 in 21ms (compile: 6ms, render: 15ms)
+ GET / 200 in 12ms (compile: 2ms, render: 9ms)
+ GET / 200 in 27ms (compile: 6ms, render: 21ms)
+ GET / 200 in 12ms (compile: 3ms, render: 9ms)
+ GET / 200 in 14ms (compile: 3ms, render: 11ms)
+ GET / 200 in 12ms (compile: 3ms, render: 9ms)
+ GET / 200 in 29ms (compile: 3ms, render: 26ms)
+ GET / 200 in 12ms (compile: 2ms, render: 9ms)
+ GET / 200 in 13ms (compile: 3ms, render: 10ms)
+ GET / 200 in 11ms (compile: 2ms, render: 9ms)
+ GET / 200 in 17ms (compile: 3ms, render: 15ms)
+ GET / 200 in 17ms (compile: 4ms, render: 13ms)
+ GET / 200 in 11ms (compile: 2ms, render: 8ms)
+ GET / 200 in 20ms (compile: 6ms, render: 14ms)
+ GET / 200 in 21ms (compile: 6ms, render: 15ms)
+ GET / 200 in 11ms (compile: 2ms, render: 8ms)
+ GET / 200 in 12ms (compile: 2ms, render: 10ms)
+ GET / 200 in 19ms (compile: 6ms, render: 13ms)
+ GET / 200 in 22ms (compile: 6ms, render: 16ms)
+ GET / 200 in 12ms (compile: 2ms, render: 9ms)
+ GET / 200 in 12ms (compile: 3ms, render: 9ms)
+ GET / 200 in 13ms (compile: 3ms, render: 10ms)
+ GET / 200 in 19ms (compile: 3ms, render: 17ms)
+ GET / 200 in 11ms (compile: 2ms, render: 9ms)
+ GET / 200 in 12ms (compile: 3ms, render: 9ms)
+ GET / 200 in 12ms (compile: 2ms, render: 9ms)
+ GET / 200 in 16ms (compile: 3ms, render: 14ms)
+ GET / 200 in 13ms (compile: 3ms, render: 10ms)
+ GET / 200 in 12ms (compile: 3ms, render: 9ms)
+ GET / 200 in 15ms (compile: 2ms, render: 13ms)
+ GET / 200 in 16ms (compile: 2ms, render: 14ms)
+ GET / 200 in 13ms (compile: 3ms, render: 11ms)
+ GET / 200 in 12ms (compile: 2ms, render: 9ms)
+✓ Compiled in 129ms
+✓ Compiled in 145ms
+✓ Compiled in 122ms
+ GET / 200 in 162ms (compile: 37ms, render: 125ms)
+[next-auth][warn][NEXTAUTH_URL] 
+https://next-auth.js.org/warnings#nextauth_url
+ GET /api/auth/session 200 in 145ms (compile: 109ms, render: 36ms)
+✓ Compiled in 224ms
+✓ Compiled in 111ms
+ GET /api/search?page=1&limit=20 401 in 356ms (compile: 343ms, render: 13ms)
+ GET /api/matches?minScore=50&limit=20 401 in 204ms (compile: 195ms, render: 9ms)
+ GET /api/interactions?type=received&limit=5 401 in 588ms (compile: 578ms, render: 10ms)
+ GET /api/matches?limit=1 401 in 9ms (compile: 1724µs, render: 7ms)
+ GET /api/interactions?type=received&limit=5 401 in 7ms (compile: 1579µs, render: 6ms)
+ GET /api/matches?limit=1 401 in 8ms (compile: 1341µs, render: 7ms)
+ GET /api/search?page=1&limit=20 401 in 7ms (compile: 1661µs, render: 5ms)
+ GET /api/matches?minScore=50&limit=20 401 in 9ms (compile: 2ms, render: 7ms)
+ GET /api/interactions?type=received&limit=50 401 in 10ms (compile: 2ms, render: 8ms)
+ GET /api/interactions?type=accepted&limit=50 401 in 10ms (compile: 2ms, render: 7ms)
+ GET /api/auth/token 401 in 250ms (compile: 243ms, render: 8ms)
+✓ Compiled in 105ms
+ GET / 200 in 144ms (compile: 45ms, render: 99ms)
+ GET /api/auth/session 200 in 85ms (compile: 60ms, render: 26ms)
+✓ Compiled in 304ms
+ GET /api/matches?minScore=50&limit=20 401 in 12ms (compile: 3ms, render: 8ms)
+ GET /api/interactions?type=received&limit=50 401 in 12ms (compile: 3ms, render: 8ms)
+ GET /api/interactions?type=accepted&limit=50 401 in 10ms (compile: 3ms, render: 7ms)
+ GET /api/auth/token 401 in 9ms (compile: 1880µs, render: 7ms)
+ GET /api/interactions?type=received&limit=5 401 in 8ms (compile: 1797µs, render: 6ms)
+ GET /api/matches?limit=1 401 in 9ms (compile: 1982µs, render: 7ms)
+✓ Compiled in 201ms
+ GET /api/interactions?type=accepted&limit=50 401 in 8ms (compile: 1835µs, render: 6ms)
+ GET /api/auth/token 401 in 6ms (compile: 1402µs, render: 5ms)
+ GET /api/interactions?type=received&limit=50 401 in 10ms (compile: 2ms, render: 7ms)
+ GET /api/matches?minScore=50&limit=20 401 in 7ms (compile: 1895µs, render: 6ms)
+ GET /api/interactions?type=received&limit=5 401 in 10ms (compile: 2ms, render: 7ms)
+ GET /api/matches?limit=1 401 in 8ms (compile: 3ms, render: 5ms)
+ GET /api/interactions?type=accepted&limit=50 401 in 8ms (compile: 1699µs, render: 6ms)
+ GET /api/auth/token 401 in 10ms (compile: 1970µs, render: 8ms)
+✓ Compiled in 181ms
+ GET / 200 in 165ms (compile: 43ms, render: 122ms)
+ GET /api/auth/session 200 in 58ms (compile: 46ms, render: 12ms)
+ GET /api/auth/session 200 in 13ms (compile: 4ms, render: 9ms)
+ GET / 200 in 56ms (compile: 10ms, render: 46ms)
+ GET / 200 in 47ms (compile: 7ms, render: 40ms)
+ GET / 200 in 27ms (compile: 3ms, render: 24ms)
+ GET /api/auth/session 200 in 49ms (compile: 38ms, render: 11ms)
+✓ Compiled in 178ms
+✓ Compiled in 0ms
+ GET / 200 in 157ms (compile: 38ms, render: 119ms)
+✓ Compiled in 165ms
+✓ Compiled in 150ms
+ GET / 200 in 140ms (compile: 41ms, render: 98ms)
+ GET /api/auth/session 200 in 65ms (compile: 47ms, render: 18ms)
+ GET /api/interactions?type=received&limit=50 401 in 12ms (compile: 3ms, render: 9ms)
+ GET /api/matches?minScore=50&limit=20 401 in 11ms (compile: 3ms, render: 8ms)
+ GET /api/interactions?type=received&limit=50 401 in 24ms (compile: 3ms, render: 22ms)
+ GET /api/search?page=1&limit=20 401 in 10ms (compile: 3ms, render: 7ms)
+ GET /api/interactions?type=received&limit=5 401 in 9ms (compile: 2ms, render: 7ms)
+ GET /api/matches?limit=1 401 in 9ms (compile: 2ms, render: 7ms)
+ GET /api/search?page=1&limit=20 401 in 7ms (compile: 2ms, render: 5ms)
+ GET /api/matches?minScore=50&limit=20 401 in 9ms (compile: 1790µs, render: 7ms)
+ GET /api/interactions?type=received&limit=50 401 in 9ms (compile: 2ms, render: 7ms)
+ GET /api/interactions?type=accepted&limit=50 401 in 9ms (compile: 2ms, render: 7ms)
+ GET /api/auth/token 401 in 8ms (compile: 1790µs, render: 6ms)
+ GET /api/interactions?type=received&limit=5 401 in 6ms (compile: 1561µs, render: 4ms)
+ GET /api/matches?limit=1 401 in 8ms (compile: 1650µs, render: 6ms)
+ GET /api/interactions?type=received&limit=50 401 in 7ms (compile: 1512µs, render: 6ms)
+ GET /api/interactions?type=sent&limit=50 401 in 7ms (compile: 1575µs, render: 6ms)
+ GET /api/interactions?type=accepted&limit=50 401 in 6ms (compile: 1691µs, render: 4ms)
+ GET /api/interactions?type=received&limit=5 401 in 8ms (compile: 2ms, render: 5ms)
+ GET /api/matches?limit=1 401 in 7ms (compile: 1544µs, render: 5ms)
+ GET /api/search?page=1&limit=20 401 in 12ms (compile: 4ms, render: 8ms)
+ GET /api/interactions?type=received&limit=5 401 in 10ms (compile: 3ms, render: 8ms)
+ GET /api/matches?limit=1 401 in 7ms (compile: 1422µs, render: 6ms)
+ GET /api/search?page=1&limit=20 401 in 8ms (compile: 1903µs, render: 6ms)
+ GET /api/matches?minScore=50&limit=20 401 in 8ms (compile: 1744µs, render: 7ms)
+ GET /api/interactions?type=received&limit=50 401 in 9ms (compile: 1550µs, render: 8ms)
+ GET /api/auth/token 401 in 9ms (compile: 3ms, render: 6ms)
+ GET /api/interactions?type=accepted&limit=50 401 in 8ms (compile: 1697µs, render: 6ms)
+✓ Compiled in 267ms
+ GET / 200 in 20ms (compile: 2ms, render: 18ms)
+ GET / 200 in 165ms (compile: 40ms, render: 125ms)
+ GET /api/auth/session 200 in 76ms (compile: 63ms, render: 12ms)
+ GET / 200 in 44ms (compile: 3ms, render: 41ms)
+ GET /api/auth/session 200 in 72ms (compile: 55ms, render: 17ms)
+✓ Compiled in 238ms
+✓ Compiled in 165ms
+✓ Compiled in 122ms
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 200 in 150ms (compile: 30ms, render: 121ms)
+ GET /api/auth/session 200 in 64ms (compile: 56ms, render: 9ms)
+ POST /api/auth/_log 200 in 10ms (compile: 3ms, render: 7ms)
+ GET /api/auth/session 200 in 53ms (compile: 42ms, render: 10ms)
+✓ Compiled in 147ms
+✓ Compiled in 125ms
+✓ Compiled in 128ms
+✓ Compiled in 145ms
+✓ Compiled in 120ms
+ GET / 200 in 161ms (compile: 55ms, render: 106ms)
+ GET /api/auth/session 200 in 73ms (compile: 54ms, render: 19ms)
+✓ Compiled in 264ms
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 200 in 45ms (compile: 3ms, render: 42ms)
+ GET /api/auth/session 200 in 66ms (compile: 46ms, render: 20ms)
+✓ Compiled in 183ms
+✓ Compiled in 183ms
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /api/auth/session 200 in 198ms (compile: 181ms, render: 16ms)
+ GET / 200 in 223ms (compile: 33ms, render: 190ms)
+ GET /api/auth/session 200 in 65ms (compile: 45ms, render: 20ms)
+✓ Compiled in 260ms
+✓ Compiled in 185ms
+✓ Compiled in 154ms
+✓ Compiled in 167ms
+ GET / 200 in 138ms (compile: 35ms, render: 103ms)
+ GET /api/auth/session 200 in 89ms (compile: 57ms, render: 33ms)
+✓ Compiled in 338ms
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 200 in 42ms (compile: 6ms, render: 36ms)
+ GET /api/auth/session 200 in 66ms (compile: 48ms, render: 18ms)
+✓ Compiled in 332ms
+✓ Compiled in 216ms
+✓ Compiled in 227ms
+✓ Compiled in 174ms
+✓ Compiled in 166ms
+✓ Compiled in 150ms
+✓ Compiled in 152ms
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /api/auth/session 200 in 105ms (compile: 96ms, render: 10ms)
+ GET / 200 in 257ms (compile: 32ms, render: 225ms)
+ POST /api/auth/_log 200 in 10ms (compile: 3ms, render: 8ms)
+ GET /api/auth/session 200 in 53ms (compile: 44ms, render: 9ms)
+✓ Compiled in 225ms
+✓ Compiled in 177ms
+✓ Compiled in 187ms
+ GET / 200 in 50ms (compile: 33ms, render: 17ms)
+✓ Compiled in 134ms
+✓ Compiled in 151ms
+ GET / 200 in 45ms (compile: 31ms, render: 13ms)
+ GET / 200 in 116ms (compile: 1763µs, render: 114ms)
+ GET /api/auth/session 200 in 69ms (compile: 57ms, render: 12ms)
+ GET / 200 in 52ms (compile: 4ms, render: 48ms)
+ GET /api/auth/session 200 in 51ms (compile: 42ms, render: 9ms)
+ GET / 200 in 46ms (compile: 3ms, render: 43ms)
+ GET /api/auth/session 200 in 68ms (compile: 49ms, render: 19ms)
+ GET /home 404 in 666ms (compile: 605ms, render: 61ms)
+ GET /home 404 in 44ms (compile: 10ms, render: 34ms)
+ GET /home 404 in 32ms (compile: 6ms, render: 26ms)
+ GET /home 404 in 39ms (compile: 7ms, render: 32ms)
+ GET /home 404 in 36ms (compile: 5ms, render: 32ms)
+✓ Compiled in 197ms
+ GET /home 404 in 31ms (compile: 8ms, render: 23ms)
+ GET / 200 in 162ms (compile: 35ms, render: 127ms)
+ GET /api/auth/session 200 in 106ms (compile: 83ms, render: 22ms)
+ GET / 200 in 68ms (compile: 4ms, render: 64ms)
+ GET /api/auth/session 200 in 64ms (compile: 51ms, render: 13ms)
+ GET / 200 in 50ms (compile: 4ms, render: 46ms)
+ GET /api/auth/session 200 in 63ms (compile: 47ms, render: 16ms)
+ GET / 200 in 51ms (compile: 3ms, render: 48ms)
+ GET /api/auth/session 200 in 55ms (compile: 45ms, render: 10ms)
+✓ Compiled in 150ms
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 200 in 156ms (compile: 44ms, render: 112ms)
+ GET /api/auth/session 200 in 82ms (compile: 50ms, render: 32ms)
+✓ Compiled in 238ms
+ GET / 200 in 171ms (compile: 41ms, render: 130ms)
+ GET /api/auth/session 200 in 73ms (compile: 64ms, render: 9ms)
+✓ Compiled in 140ms
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 200 in 181ms (compile: 38ms, render: 144ms)
+ GET /api/auth/session 200 in 69ms (compile: 58ms, render: 11ms)
+✓ Compiled in 139ms
+✓ Compiled in 143ms
+✓ Compiled in 113ms
+✓ Compiled in 119ms
+✓ Compiled in 129ms
+✓ Compiled in 135ms
+✓ Compiled in 253ms
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /api/auth/session 200 in 82ms (compile: 67ms, render: 16ms)
+ GET / 200 in 272ms (compile: 46ms, render: 226ms)
+ POST /api/auth/_log 200 in 19ms (compile: 10ms, render: 9ms)
+ GET /api/auth/session 200 in 80ms (compile: 70ms, render: 10ms)
+ GET / 200 in 53ms (compile: 3ms, render: 50ms)
+ GET /api/auth/session 200 in 75ms (compile: 65ms, render: 10ms)
+✓ Compiled in 189ms
+ GET / 200 in 67ms (compile: 50ms, render: 17ms)
+ GET / 200 in 14ms (compile: 1645µs, render: 12ms)
+✓ Compiled in 163ms
+✓ Compiled in 158ms
+✓ Compiled in 142ms
+✓ Compiled in 148ms
+✓ Compiled in 128ms
+✓ Compiled in 152ms
+✓ Compiled in 133ms
+✓ Compiled in 140ms
+✓ Compiled in 151ms
+✓ Compiled in 143ms
+✓ Compiled in 130ms
+✓ Compiled in 149ms
+✓ Compiled in 125ms
+✓ Compiled in 131ms
+✓ Compiled in 112ms
+✓ Compiled in 131ms
+✓ Compiled in 123ms
+ GET / 200 in 167ms (compile: 43ms, render: 124ms)
+ GET /api/auth/session 200 in 69ms (compile: 58ms, render: 10ms)
+✓ Compiled in 209ms
+ GET / 200 in 180ms (compile: 47ms, render: 134ms)
+ GET /api/auth/session 200 in 76ms (compile: 63ms, render: 13ms)
+✓ Compiled in 191ms
+ GET / 200 in 168ms (compile: 33ms, render: 135ms)
+ GET /api/auth/session 200 in 71ms (compile: 59ms, render: 11ms)
+ GET / 200 in 60ms (compile: 4ms, render: 56ms)
+ GET /api/auth/session 200 in 61ms (compile: 48ms, render: 13ms)
+✓ Compiled in 201ms
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 200 in 154ms (compile: 41ms, render: 113ms)
+ GET /api/auth/session 200 in 76ms (compile: 58ms, render: 18ms)
+ GET / 200 in 44ms (compile: 3ms, render: 42ms)
+ GET /api/auth/session 200 in 68ms (compile: 55ms, render: 13ms)
+✓ Compiled in 243ms
+✓ Compiled in 179ms
+✓ Compiled in 162ms
+ GET / 200 in 150ms (compile: 32ms, render: 118ms)
+ GET /api/auth/session 200 in 87ms (compile: 73ms, render: 14ms)
+ GET / 200 in 59ms (compile: 4ms, render: 55ms)
+✓ Compiled in 201ms
+ GET /api/auth/session 200 in 86ms (compile: 57ms, render: 29ms)
+ GET / 200 in 161ms (compile: 39ms, render: 122ms)
+ GET /api/auth/session 200 in 86ms (compile: 70ms, render: 16ms)
+ GET / 200 in 45ms (compile: 2ms, render: 43ms)
+ GET /api/auth/session 200 in 60ms (compile: 49ms, render: 11ms)
+ GET / 200 in 50ms (compile: 5ms, render: 45ms)
+ GET /api/auth/session 200 in 68ms (compile: 56ms, render: 13ms)
+✓ Compiled in 248ms
+ GET / 200 in 148ms (compile: 47ms, render: 101ms)
+ GET /api/auth/session 200 in 67ms (compile: 55ms, render: 12ms)
+ GET / 200 in 48ms (compile: 4ms, render: 44ms)
+ GET /api/auth/session 200 in 63ms (compile: 52ms, render: 11ms)
+✓ Compiled in 243ms
+ GET / 200 in 175ms (compile: 41ms, render: 134ms)
+ GET /api/auth/session 200 in 85ms (compile: 61ms, render: 24ms)
+ GET / 200 in 43ms (compile: 4ms, render: 39ms)
+ GET /api/auth/session 200 in 71ms (compile: 49ms, render: 21ms)
+ GET / 200 in 68ms (compile: 7ms, render: 60ms)
+ GET /api/auth/session 200 in 67ms (compile: 58ms, render: 9ms)
+ GET / 200 in 52ms (compile: 7ms, render: 45ms)
+ GET /api/auth/session 200 in 63ms (compile: 47ms, render: 16ms)
+✓ Compiled in 316ms
+ GET / 200 in 172ms (compile: 38ms, render: 134ms)
+ GET /api/auth/session 200 in 109ms (compile: 79ms, render: 30ms)
+✓ Compiled in 263ms
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 200 in 184ms (compile: 42ms, render: 143ms)
+ GET /api/auth/session 200 in 106ms (compile: 90ms, render: 16ms)
+ GET / 200 in 52ms (compile: 3ms, render: 49ms)
+ GET /api/auth/session 200 in 73ms (compile: 62ms, render: 11ms)
+ GET / 200 in 52ms (compile: 4ms, render: 48ms)
+ GET /api/auth/session 200 in 64ms (compile: 53ms, render: 11ms)
+ GET / 200 in 81ms (compile: 4ms, render: 77ms)
+ GET /api/auth/session 200 in 65ms (compile: 54ms, render: 11ms)
+✓ Compiled in 185ms
+✓ Compiled in 167ms
+✓ Compiled in 158ms
+✓ Compiled in 180ms
+✓ Compiled in 142ms
+ GET / 200 in 145ms (compile: 33ms, render: 112ms)
+ GET /api/auth/session 200 in 86ms (compile: 59ms, render: 27ms)
+ GET / 200 in 45ms (compile: 3ms, render: 42ms)
+ GET /api/auth/session 200 in 64ms (compile: 53ms, render: 11ms)
+ GET / 200 in 62ms (compile: 4ms, render: 58ms)
+ GET /api/auth/session 200 in 73ms (compile: 56ms, render: 17ms)
+ GET / 200 in 44ms (compile: 3ms, render: 41ms)
+ GET /api/auth/session 200 in 62ms (compile: 51ms, render: 10ms)
+✓ Compiled in 378ms
+✓ Compiled in 361ms
+✓ Compiled in 166ms
+ GET / 200 in 159ms (compile: 34ms, render: 125ms)
+ GET /api/auth/session 200 in 78ms (compile: 65ms, render: 12ms)
+✓ Compiled in 188ms
+✓ Compiled in 175ms
+ GET / 200 in 177ms (compile: 42ms, render: 135ms)
+ GET /api/auth/session 200 in 102ms (compile: 76ms, render: 27ms)
+✓ Compiled in 302ms
+✓ Compiled in 200ms
+✓ Compiled in 148ms
+ GET / 200 in 150ms (compile: 35ms, render: 114ms)
+ GET /api/auth/session 200 in 95ms (compile: 68ms, render: 27ms)
+✓ Compiled in 259ms
+✓ Compiled in 169ms
+✓ Compiled in 166ms
+✓ Compiled in 141ms
+✓ Compiled in 186ms
+✓ Compiled in 160ms
+✓ Compiled in 194ms
+ GET / 200 in 150ms (compile: 34ms, render: 116ms)
+ GET /api/auth/session 200 in 84ms (compile: 70ms, render: 15ms)
+ GET / 200 in 63ms (compile: 7ms, render: 57ms)
+ GET /api/auth/session 200 in 62ms (compile: 50ms, render: 12ms)
+✓ Compiled in 231ms
+✓ Compiled in 184ms
+✓ Compiled in 180ms
+✓ Compiled in 229ms
+ GET / 200 in 175ms (compile: 34ms, render: 141ms)
+ GET /api/auth/session 200 in 108ms (compile: 80ms, render: 28ms)
+✓ Compiled in 299ms
+✓ Compiled in 139ms
+✓ Compiled in 181ms
+ GET / 200 in 164ms (compile: 43ms, render: 120ms)
+ GET /api/auth/session 200 in 90ms (compile: 62ms, render: 28ms)
+✓ Compiled in 281ms
+✓ Compiled in 280ms
+✓ Compiled in 362ms
+ GET / 200 in 185ms (compile: 46ms, render: 140ms)
+ GET /api/auth/session 200 in 123ms (compile: 75ms, render: 47ms)
+✓ Compiled in 438ms
+ GET / 200 in 175ms (compile: 44ms, render: 131ms)
+ GET /api/auth/session 200 in 112ms (compile: 83ms, render: 29ms)
+✓ Compiled in 199ms
+✓ Compiled in 261ms
+ GET / 200 in 267ms (compile: 103ms, render: 164ms)
+ GET /api/auth/session 200 in 137ms (compile: 83ms, render: 55ms)
+ GET / 200 in 84ms (compile: 4ms, render: 81ms)
+ GET /api/auth/session 200 in 89ms (compile: 73ms, render: 16ms)
+ GET /api/auth/session 200 in 9ms (compile: 3ms, render: 7ms)
+ GET / 200 in 72ms (compile: 3ms, render: 69ms)
+ GET /api/auth/session 200 in 63ms (compile: 50ms, render: 13ms)
+✓ Compiled in 368ms
+ GET / 200 in 193ms (compile: 36ms, render: 157ms)
+ GET /api/auth/session 200 in 100ms (compile: 67ms, render: 33ms)
+✓ Compiled in 335ms
+ GET / 200 in 189ms (compile: 47ms, render: 142ms)
+ GET /api/auth/session 200 in 96ms (compile: 68ms, render: 28ms)
+✓ Compiled in 378ms
+✓ Compiled in 252ms
+✓ Compiled in 261ms
+ GET / 200 in 212ms (compile: 33ms, render: 179ms)
+ GET /api/auth/session 200 in 101ms (compile: 70ms, render: 31ms)
+ GET / 200 in 92ms (compile: 3ms, render: 89ms)
+ GET /api/auth/session 200 in 72ms (compile: 56ms, render: 16ms)
+ GET / 200 in 65ms (compile: 4ms, render: 61ms)
+ GET /api/auth/session 200 in 73ms (compile: 57ms, render: 16ms)
+✓ Compiled in 287ms
+✓ Compiled in 322ms
+ GET / 200 in 216ms (compile: 33ms, render: 183ms)
+ GET /api/auth/session 200 in 123ms (compile: 75ms, render: 48ms)
+ GET / 200 in 65ms (compile: 2ms, render: 62ms)
+ GET /api/auth/session 200 in 71ms (compile: 56ms, render: 15ms)
+✓ Compiled in 370ms
+ GET / 200 in 212ms (compile: 40ms, render: 172ms)
+ GET /api/auth/session 200 in 94ms (compile: 69ms, render: 24ms)
+✓ Compiled in 340ms
+ GET / 200 in 198ms (compile: 42ms, render: 156ms)
+ GET /api/auth/session 200 in 88ms (compile: 67ms, render: 21ms)
+ GET / 200 in 99ms (compile: 5ms, render: 94ms)
+ GET /api/auth/session 200 in 94ms (compile: 61ms, render: 33ms)
+ GET / 200 in 75ms (compile: 3ms, render: 72ms)
+ GET /api/auth/session 200 in 69ms (compile: 54ms, render: 15ms)
+✓ Compiled in 351ms
+✓ Compiled in 176ms
+✓ Compiled in 259ms
+ GET / 200 in 201ms (compile: 38ms, render: 163ms)
+ GET /api/auth/session 200 in 103ms (compile: 82ms, render: 21ms)
+✓ Compiled in 339ms
+✓ Compiled in 337ms
+✓ Compiled in 235ms
+ GET / 200 in 206ms (compile: 39ms, render: 167ms)
+ GET /api/auth/session 200 in 89ms (compile: 71ms, render: 19ms)
+✓ Compiled in 384ms
+ GET / 200 in 186ms (compile: 37ms, render: 150ms)
+ GET /api/auth/session 200 in 77ms (compile: 67ms, render: 10ms)
+ GET / 200 in 76ms (compile: 4ms, render: 72ms)
+ GET /api/auth/session 200 in 97ms (compile: 63ms, render: 34ms)
+✓ Compiled in 333ms
+✓ Compiled in 221ms
+ GET / 200 in 190ms (compile: 52ms, render: 138ms)
+ GET /api/auth/session 200 in 105ms (compile: 70ms, render: 34ms)
+✓ Compiled in 256ms
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 200 in 192ms (compile: 38ms, render: 154ms)
+ GET /api/auth/session 200 in 102ms (compile: 84ms, render: 18ms)
+✓ Compiled in 250ms
+✓ Compiled in 354ms
