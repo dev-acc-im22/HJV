@@ -393,7 +393,7 @@ function MatrimonyApp() {
         return (
           <MessagesPage
             onNavigate={setCurrentPage}
-            conversations={state.conversations}
+            conversations={conversations}
             messages={state.messages}
             sendMessage={sendMessage}
             markMessagesRead={markMessagesRead}
@@ -416,7 +416,16 @@ function MatrimonyApp() {
           ? mockProfiles.find(p => p.userId === state.viewingProfileId)
           : null;
         if (!viewingProfile) {
-          return <MatchesPage onNavigate={setCurrentPage} viewProfile={viewProfile} />;
+          return (
+            <MatchesPage
+              onNavigate={setCurrentPage}
+              getMatches={getMatchesForGhost}
+              sendInterest={sendInterest}
+              shortlistProfile={shortlistProfile}
+              shortlisted={state.shortlisted}
+              viewProfile={viewProfile}
+            />
+          );
         }
         const matchScore = calculateCompatibility(viewingProfile, state.preferences);
         return (
@@ -770,38 +779,60 @@ function HomePage({ onNavigate }: { onNavigate: (page: Page) => void }) {
         <div className="absolute inset-0 bg-gradient-to-br from-[#FCE4EC] via-[#F8BBD9] to-[#C2185B]">
           <div className="absolute inset-0 bg-gradient-to-b from-[#880E4F]/30 via-[#AD1457]/20 to-transparent"></div>
           
-          {/* Floating animated elements */}
+          {/* Floating animated elements - using deterministic values to avoid hydration errors */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {/* Floating hearts */}
-            {[...Array(12)].map((_, i) => (
+            {/* Floating hearts with predefined positions */}
+            {[ 
+              { left: '10%', top: '20%', size: 28, delay: 0, duration: 5 },
+              { left: '25%', top: '60%', size: 24, delay: 0.5, duration: 6 },
+              { left: '40%', top: '30%', size: 32, delay: 1, duration: 4.5 },
+              { left: '55%', top: '70%', size: 22, delay: 1.5, duration: 5.5 },
+              { left: '70%', top: '15%', size: 30, delay: 2, duration: 6.5 },
+              { left: '85%', top: '50%', size: 26, delay: 2.5, duration: 5 },
+              { left: '15%', top: '80%', size: 20, delay: 3, duration: 4 },
+              { left: '30%', top: '10%', size: 35, delay: 3.5, duration: 5.5 },
+              { left: '60%', top: '45%', size: 25, delay: 4, duration: 6 },
+              { left: '75%', top: '85%', size: 28, delay: 4.5, duration: 4.5 },
+              { left: '90%', top: '25%', size: 22, delay: 5, duration: 5.5 },
+              { left: '5%', top: '55%', size: 30, delay: 5.5, duration: 6 },
+            ].map((heart, i) => (
               <div
                 key={i}
                 className="absolute animate-float opacity-20"
                 style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animationDelay: `${i * 0.5}s`,
-                  animationDuration: `${4 + Math.random() * 3}s`,
+                  left: heart.left,
+                  top: heart.top,
+                  animationDelay: `${heart.delay}s`,
+                  animationDuration: `${heart.duration}s`,
                 }}
               >
                 <Heart 
-                  size={20 + Math.random() * 30} 
+                  size={heart.size} 
                   className="text-[#880E4F] fill-[#880E4F]/30" 
                 />
               </div>
             ))}
             
-            {/* Floating circles */}
-            {[...Array(8)].map((_, i) => (
+            {/* Floating circles with predefined positions */}
+            {[
+              { left: '5%', top: '10%', size: 60, delay: 0 },
+              { left: '20%', top: '40%', size: 80, delay: 0.7 },
+              { left: '35%', top: '75%', size: 50, delay: 1.4 },
+              { left: '50%', top: '20%', size: 70, delay: 2.1 },
+              { left: '65%', top: '60%', size: 55, delay: 2.8 },
+              { left: '80%', top: '35%', size: 75, delay: 3.5 },
+              { left: '95%', top: '70%', size: 65, delay: 4.2 },
+              { left: '45%', top: '90%', size: 45, delay: 4.9 },
+            ].map((circle, i) => (
               <div
                 key={`circle-${i}`}
                 className="absolute rounded-full animate-pulse-slow"
                 style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  width: `${40 + Math.random() * 60}px`,
-                  height: `${40 + Math.random() * 60}px`,
-                  animationDelay: `${i * 0.7}s`,
+                  left: circle.left,
+                  top: circle.top,
+                  width: `${circle.size}px`,
+                  height: `${circle.size}px`,
+                  animationDelay: `${circle.delay}s`,
                   background: `radial-gradient(circle, rgba(194, 24, 91, 0.1) 0%, transparent 70%)`,
                 }}
               />
@@ -1261,17 +1292,38 @@ function HomePage({ onNavigate }: { onNavigate: (page: Page) => void }) {
       <section className="py-12 md:py-20 bg-gradient-to-r from-[#5D0F3A] via-[#880E4F] to-[#C2185B] relative overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {[...Array(20)].map((_, i) => (
+          {[
+            { left: '5%', top: '10%', size: 20 },
+            { left: '15%', top: '30%', size: 28 },
+            { left: '25%', top: '15%', size: 24 },
+            { left: '35%', top: '45%', size: 32 },
+            { left: '45%', top: '25%', size: 18 },
+            { left: '55%', top: '60%', size: 26 },
+            { left: '65%', top: '35%', size: 30 },
+            { left: '75%', top: '70%', size: 22 },
+            { left: '85%', top: '20%', size: 28 },
+            { left: '95%', top: '50%', size: 24 },
+            { left: '10%', top: '80%', size: 20 },
+            { left: '20%', top: '55%', size: 34 },
+            { left: '30%', top: '85%', size: 18 },
+            { left: '40%', top: '5%', size: 26 },
+            { left: '50%', top: '75%', size: 30 },
+            { left: '60%', top: '40%', size: 22 },
+            { left: '70%', top: '90%', size: 28 },
+            { left: '80%', top: '65%', size: 24 },
+            { left: '90%', top: '10%', size: 20 },
+            { left: '3%', top: '40%', size: 32 },
+          ].map((heart, i) => (
             <div
               key={i}
               className="absolute animate-float opacity-10"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
+                left: heart.left,
+                top: heart.top,
                 animationDelay: `${i * 0.3}s`,
               }}
             >
-              <Heart size={16 + Math.random() * 24} className="text-white fill-white" />
+              <Heart size={heart.size} className="text-white fill-white" />
             </div>
           ))}
         </div>
@@ -2793,14 +2845,14 @@ function DashboardPage({
     return getMatches().slice(0, 10);
   }, [getMatches]);
 
-  // Recent visitors mock data
+  // Recent visitors mock data - using deterministic times to avoid hydration issues
   const recentVisitors = useMemo(() => {
     return mockProfiles
       .filter(p => p.gender !== profile.gender)
       .slice(0, 6)
-      .map(p => ({
+      .map((p, index) => ({
         ...p,
-        visitedAt: new Date(Date.now() - Math.random() * 24 * 60 * 60 * 1000)
+        visitedAt: new Date(Date.now() - (index + 1) * 2 * 60 * 60 * 1000) // 2, 4, 6, 8, 10, 12 hours ago
       }))
       .sort((a, b) => b.visitedAt.getTime() - a.visitedAt.getTime());
   }, [profile.gender]);
@@ -3059,13 +3111,13 @@ function DashboardPage({
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium transition-all whitespace-nowrap ${
+            className={`flex items-center gap-2 px-5 py-3 rounded-2xl font-semibold transition-all duration-300 ease-out whitespace-nowrap transform ${
               activeTab === tab.id
-                ? 'bg-gradient-to-r from-[#880E4F] via-[#AD1457] to-[#C2185B] text-white shadow-md'
-                : 'bg-white border border-[#F8BBD9] text-[#5D0F3A] hover:bg-[#FCE4EC]'
+                ? 'bg-gradient-to-r from-[#880E4F] via-[#AD1457] to-[#C2185B] text-white shadow-lg shadow-[#880E4F]/25 scale-[1.02] ring-2 ring-[#F8BBD9]/50'
+                : 'bg-gradient-to-b from-[#FFF0F5] to-[#FCE4EC] text-[#5D0F3A] hover:bg-gradient-to-b hover:from-[#FCE4EC] hover:to-[#F8BBD9] hover:scale-[1.02] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#C2185B]/50 border border-[#F8BBD9]/50'
             }`}
           >
-            <tab.icon size={18} />
+            <tab.icon size={18} className={`transition-transform duration-300 ${activeTab === tab.id ? 'scale-110' : ''}`} />
             {tab.label}
           </button>
         ))}
@@ -4615,7 +4667,7 @@ function InterestsPage({
   const getTabData = () => {
     switch (activeTab) {
       case "received": return receivedInterests;
-      case "sent": return sentInteractions;
+      case "sent": return sentInterests;
       case "accepted": return acceptedInterests;
       case "shortlisted": return shortlistedInteractions;
     }
@@ -4652,7 +4704,7 @@ function InterestsPage({
       </h1>
 
       {/* Tabs */}
-      <div className="flex gap-1 mb-4 sm:mb-6 bg-white rounded-xl p-1 shadow-sm border border-[#FCE4EC] overflow-x-auto">
+      <div className="flex gap-2 mb-4 sm:mb-6 bg-white/80 backdrop-blur-sm rounded-2xl p-2 shadow-md border border-[#FCE4EC] overflow-x-auto">
         {[
           { id: "received" as const, label: "Received", count: receivedInterests.length },
           { id: "sent" as const, label: "Sent", count: sentInterests.length },
@@ -4662,17 +4714,17 @@ function InterestsPage({
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex-1 min-w-fit py-2 sm:py-3 px-2 sm:px-4 rounded-lg text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
+            className={`flex-1 min-w-fit py-2.5 sm:py-3 px-3 sm:px-5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 ease-out whitespace-nowrap transform focus:outline-none focus:ring-2 focus:ring-offset-1 ${
               activeTab === tab.id
-                ? "bg-gradient-to-r from-[#880E4F] to-[#AD1457] text-white"
-                : "text-[#5D0F3A] hover:bg-[#FCE4EC]"
+                ? "bg-gradient-to-r from-[#880E4F] via-[#AD1457] to-[#C2185B] text-white shadow-lg shadow-[#880E4F]/25 scale-[1.02] focus:ring-[#C2185B]"
+                : "bg-gradient-to-b from-[#FFF0F5] to-[#FCE4EC] text-[#5D0F3A] hover:bg-gradient-to-b hover:from-[#FCE4EC] hover:to-[#F8BBD9] hover:scale-[1.02] hover:shadow-md focus:ring-[#C2185B]/50 border border-[#F8BBD9]/50"
             }`}
           >
             <span className="hidden sm:inline">{tab.label}</span>
             <span className="sm:hidden">{tab.label.slice(0, 4)}</span>
             {tab.count > 0 && (
-              <span className={`ml-1 sm:ml-2 px-1.5 sm:px-2 py-0.5 rounded-full text-xs ${
-                activeTab === tab.id ? "bg-white/20" : "bg-[#FFE4E1]"
+              <span className={`ml-1.5 sm:ml-2 px-2 py-0.5 rounded-full text-xs font-bold ${
+                activeTab === tab.id ? "bg-white/25 text-white" : "bg-gradient-to-r from-[#FCE4EC] to-[#F8BBD9] text-[#880E4F]"
               }`}>
                 {tab.count}
               </span>
@@ -4991,23 +5043,23 @@ function MessagesPage({
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-3 sm:px-4 py-6 sm:py-8">
-      <h1 className="text-2xl sm:text-3xl font-bold text-[#4A0E25] mb-4 sm:mb-6 flex items-center gap-2">
-        <MessageCircle size={28} className="text-[#C2185B]" />
-        Messages
+    <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8">
+      <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#4A0E25] mb-3 sm:mb-4 md:mb-6 flex items-center gap-2">
+        <MessageCircle size={24} className="text-[#C2185B] sm:w-7 sm:h-7 md:w-8 md:h-8" />
+        <span>Messages</span>
       </h1>
 
-      <div className="bg-white rounded-xl shadow-sm border border-[#FCE4EC] overflow-hidden" style={{ height: "calc(100vh - 280px)", minHeight: "400px" }}>
+      <div className="bg-white rounded-lg sm:rounded-xl shadow-sm border border-[#FCE4EC] overflow-hidden h-[calc(100vh-200px)] sm:h-[calc(100vh-240px)] md:h-[calc(100vh-280px)] min-h-[350px] sm:min-h-[400px] md:min-h-[450px]">
         <div className="flex h-full">
           {/* Conversations List */}
-          <div className={`${activeChat ? 'hidden md:block' : ''} w-full md:w-1/3 border-r border-[#FCE4EC] flex flex-col`}>
-            <div className="p-3 border-b border-[#FCE4EC]">
+          <div className={`${activeChat ? 'hidden md:flex' : 'flex'} w-full md:w-[280px] lg:w-[320px] xl:w-[360px] border-r border-[#FCE4EC] flex-col flex-shrink-0`}>
+            <div className="p-2 sm:p-3 border-b border-[#FCE4EC]">
               <input
                 type="text"
-                placeholder="🔍 Search conversations..."
+                placeholder="Search conversations..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full p-2 bg-[#FFF0F5] rounded-lg border-none focus:ring-2 focus:ring-[#EC407A]"
+                className="w-full p-2 sm:p-2.5 text-sm sm:text-base bg-[#FFF0F5] rounded-lg border-none focus:ring-2 focus:ring-[#EC407A] min-h-[40px] sm:min-h-[44px]"
               />
             </div>
             <div className="flex-1 overflow-y-auto">
@@ -5018,30 +5070,30 @@ function MessagesPage({
                     setActiveChat(conv.userId);
                     markMessagesRead(conv.userId);
                   }}
-                  className={`w-full p-4 flex items-center gap-3 border-b border-[#FCE4EC] text-left hover:bg-[#FCE4EC] transition-colors ${
+                  className={`w-full p-3 sm:p-4 flex items-start gap-2 sm:gap-3 border-b border-[#FCE4EC] text-left hover:bg-[#FCE4EC] transition-colors min-h-[72px] sm:min-h-[80px] ${
                     activeChat === conv.userId ? "bg-[#FFF0F5]" : ""
                   }`}
                 >
-                  <div className="relative">
-                    <div className="w-12 h-12 bg-gradient-to-br from-[#880E4F] to-[#AD1457] rounded-full flex items-center justify-center text-white font-bold">
+                  <div className="relative flex-shrink-0">
+                    <div className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 bg-gradient-to-br from-[#880E4F] to-[#AD1457] rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base">
                       {conv.profile.name[0]}
                     </div>
                     {conv.unreadCount > 0 && (
-                      <div className="absolute -top-1 -right-1 w-5 h-5 bg-[#880E4F] rounded-full flex items-center justify-center text-white text-xs">
+                      <div className="absolute -top-0.5 -right-0.5 w-4 h-4 sm:w-5 sm:h-5 bg-[#880E4F] rounded-full flex items-center justify-center text-white text-[10px] sm:text-xs">
                         {conv.unreadCount}
                       </div>
                     )}
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-medium text-[#4A0E25] truncate">{conv.profile.name}</h3>
+                  <div className="flex-1 min-w-0 overflow-hidden">
+                    <div className="flex items-center justify-between gap-1">
+                      <h3 className="font-medium text-[#4A0E25] text-sm sm:text-base truncate flex-shrink-0">{conv.profile.name}</h3>
                       {conv.lastMessage && (
-                        <span className="text-xs text-[#5D0F3A]">
+                        <span className="text-[10px] sm:text-xs text-[#5D0F3A] flex-shrink-0 whitespace-nowrap">
                           {new Date(conv.lastMessage.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-[#5D0F3A] truncate">
+                    <p className="text-xs sm:text-sm text-[#5D0F3A] line-clamp-2 mt-0.5 leading-tight">
                       {conv.lastMessage?.content || "Start a conversation!"}
                     </p>
                   </div>
@@ -5051,64 +5103,64 @@ function MessagesPage({
           </div>
 
           {/* Chat Area */}
-          <div className={`${activeChat ? '' : 'hidden md:flex'} flex-1 flex-col`}>
+          <div className={`${activeChat ? 'flex' : 'hidden md:flex'} flex-1 flex-col min-w-0`}>
             {activeChat ? (
               <>
                 {/* Chat Header */}
-                <div className="p-3 sm:p-4 border-b border-[#FCE4EC] flex items-center justify-between">
-                  <div className="flex items-center gap-3">
+                <div className="p-2 sm:p-3 md:p-4 border-b border-[#FCE4EC] flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 sm:gap-3 min-w-0">
                     <button
                       onClick={() => setActiveChat(null)}
-                      className="md:hidden p-2 hover:bg-[#FCE4EC] rounded-lg"
+                      className="md:hidden p-1.5 sm:p-2 hover:bg-[#FCE4EC] rounded-lg flex-shrink-0"
                     >
-                      ←
+                      <ChevronLeft size={20} className="text-[#880E4F]" />
                     </button>
-                    <div className="relative">
-                      <div className="w-10 h-10 bg-gradient-to-br from-[#880E4F] to-[#AD1457] rounded-full flex items-center justify-center text-white font-bold">
+                    <div className="relative flex-shrink-0">
+                      <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 bg-gradient-to-br from-[#880E4F] to-[#AD1457] rounded-full flex items-center justify-center text-white font-bold text-sm">
                         {activeConversation?.profile.name[0]}
                       </div>
-                      <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                      <div className="absolute bottom-0 right-0 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-500 rounded-full border-2 border-white"></div>
                     </div>
-                    <div>
-                      <h3 className="font-medium text-[#4A0E25] text-sm sm:text-base">
+                    <div className="min-w-0">
+                      <h3 className="font-medium text-[#4A0E25] text-sm sm:text-base truncate">
                         {activeConversation?.profile.name}
                       </h3>
-                      <p className="text-xs text-green-500 flex items-center gap-1">
+                      <p className="text-[10px] sm:text-xs text-green-500 flex items-center gap-1">
                         <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
                         Online
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1 sm:gap-2">
+                  <div className="flex items-center gap-0.5 sm:gap-1 md:gap-2 flex-shrink-0">
                     <button
                       onClick={handleVideoCall}
-                      className="p-2 hover:bg-[#FCE4EC] rounded-lg transition-colors"
+                      className="p-1.5 sm:p-2 hover:bg-[#FCE4EC] rounded-lg transition-colors min-h-[36px] sm:min-h-[40px] min-w-[36px] sm:min-w-[40px] flex items-center justify-center"
                       title="Video Call"
                     >
-                      <Video size={18} className="text-[#880E4F]" />
+                      <Video size={16} className="text-[#880E4F] sm:w-[18px] sm:h-[18px]" />
                     </button>
                     <button
                       onClick={() => onNavigate("profileView")}
-                      className="p-2 hover:bg-[#FCE4EC] rounded-lg transition-colors"
+                      className="p-1.5 sm:p-2 hover:bg-[#FCE4EC] rounded-lg transition-colors min-h-[36px] sm:min-h-[40px] min-w-[36px] sm:min-w-[40px] flex items-center justify-center"
                       title="View Profile"
                     >
-                      <User size={18} className="text-[#880E4F]" />
+                      <User size={16} className="text-[#880E4F] sm:w-[18px] sm:h-[18px]" />
                     </button>
-                    <button className="p-2 hover:bg-[#FCE4EC] rounded-lg transition-colors">
-                      <MoreVertical size={18} className="text-[#880E4F]" />
+                    <button className="p-1.5 sm:p-2 hover:bg-[#FCE4EC] rounded-lg transition-colors min-h-[36px] sm:min-h-[40px] min-w-[36px] sm:min-w-[40px] flex items-center justify-center">
+                      <MoreVertical size={16} className="text-[#880E4F] sm:w-[18px] sm:h-[18px]" />
                     </button>
                   </div>
                 </div>
 
                 {/* Messages */}
-                <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 custom-scrollbar">
+                <div className="flex-1 overflow-y-auto p-2 sm:p-3 md:p-4 space-y-2 sm:space-y-3">
                   {chatMessages.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center h-full text-center text-[#5D0F3A]">
-                      <div className="w-16 h-16 bg-[#FCE4EC] rounded-full flex items-center justify-center mb-3">
-                        <Sparkles size={24} className="text-[#C2185B]" />
+                    <div className="flex flex-col items-center justify-center h-full text-center text-[#5D0F3A] p-4">
+                      <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#FCE4EC] rounded-full flex items-center justify-center mb-3">
+                        <Sparkles size={24} className="text-[#C2185B] sm:w-7 sm:h-7" />
                       </div>
-                      <p className="font-medium text-[#4A0E25]">Start the conversation!</p>
-                      <p className="text-sm mt-1">Say hello to {activeConversation?.profile.name}</p>
+                      <p className="font-medium text-[#4A0E25] text-sm sm:text-base">Start the conversation!</p>
+                      <p className="text-xs sm:text-sm mt-1">Say hello to {activeConversation?.profile.name}</p>
                     </div>
                   ) : (
                     <>
@@ -5118,23 +5170,23 @@ function MessagesPage({
                           className={`flex ${msg.senderId === 'ghost-user' ? 'justify-end' : 'justify-start'}`}
                         >
                           <div
-                            className={`max-w-[75%] sm:max-w-[70%] p-2.5 sm:p-3 rounded-2xl ${
+                            className={`max-w-[85%] sm:max-w-[75%] md:max-w-[70%] p-2 sm:p-2.5 md:p-3 rounded-xl sm:rounded-2xl ${
                               msg.senderId === 'ghost-user'
-                                ? "bg-gradient-to-r from-[#880E4F] to-[#AD1457] text-white rounded-br-md"
-                                : "bg-[#FFF0F5] text-[#4A0E25] rounded-bl-md"
+                                ? "bg-gradient-to-r from-[#880E4F] to-[#AD1457] text-white rounded-br-sm sm:rounded-br-md"
+                                : "bg-[#FFF0F5] text-[#4A0E25] rounded-bl-sm sm:rounded-bl-md"
                             }`}
                           >
-                            <p className="text-sm sm:text-base">{msg.content}</p>
-                            <p className={`text-xs mt-1 flex items-center gap-1 ${
+                            <p className="text-xs sm:text-sm md:text-base break-words">{msg.content}</p>
+                            <p className={`text-[10px] sm:text-xs mt-0.5 sm:mt-1 flex items-center gap-1 ${
                               msg.senderId === 'ghost-user' ? "text-white/70" : "text-[#5D0F3A]"
                             }`}>
                               {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                               {msg.senderId === 'ghost-user' && (
-                                <span className="flex items-center ml-1">
+                                <span className="flex items-center ml-0.5">
                                   {msg.isRead ? (
-                                    <CheckCheck size={14} className="text-blue-300" title="Read" />
+                                    <CheckCheck size={12} className="text-blue-300 sm:w-3.5 sm:h-3.5" title="Read" />
                                   ) : (
-                                    <Check size={14} className="text-white/60" title="Sent" />
+                                    <Check size={12} className="text-white/60 sm:w-3.5 sm:h-3.5" title="Sent" />
                                   )}
                                 </span>
                               )}
@@ -5145,11 +5197,11 @@ function MessagesPage({
                       {/* Typing Indicator */}
                       {isTyping && (
                         <div className="flex justify-start">
-                          <div className="bg-[#FFF0F5] px-4 py-2 rounded-2xl rounded-bl-md">
+                          <div className="bg-[#FFF0F5] px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl rounded-bl-sm sm:rounded-bl-md">
                             <div className="flex gap-1">
-                              <span className="w-2 h-2 bg-[#C2185B] rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                              <span className="w-2 h-2 bg-[#C2185B] rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                              <span className="w-2 h-2 bg-[#C2185B] rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#C2185B] rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#C2185B] rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#C2185B] rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
                             </div>
                           </div>
                         </div>
@@ -5161,16 +5213,16 @@ function MessagesPage({
 
                 {/* Icebreakers Dropdown */}
                 {showIcebreakers && (
-                  <div className="absolute bottom-20 left-4 right-4 sm:left-auto sm:right-auto sm:bottom-20 sm:left-20 bg-white rounded-xl shadow-lg border border-[#FCE4EC] p-3 z-10 max-w-md">
-                    <p className="text-xs text-[#880E4F] font-medium mb-2 flex items-center gap-1">
-                      <Sparkles size={12} /> Suggested Icebreakers
+                  <div className="absolute bottom-16 sm:bottom-20 left-2 right-2 sm:left-4 sm:right-4 md:left-6 md:right-auto md:bottom-20 md:left-24 bg-white rounded-lg sm:rounded-xl shadow-lg border border-[#FCE4EC] p-2 sm:p-3 z-10 max-w-sm md:max-w-md">
+                    <p className="text-[10px] sm:text-xs text-[#880E4F] font-medium mb-1.5 sm:mb-2 flex items-center gap-1">
+                      <Sparkles size={10} className="sm:w-3 sm:h-3" /> Suggested Icebreakers
                     </p>
-                    <div className="space-y-2">
+                    <div className="space-y-1 sm:space-y-2 max-h-48 overflow-y-auto">
                       {icebreakers.map((text, i) => (
                         <button
                           key={i}
                           onClick={() => handleIcebreakerSelect(text)}
-                          className="w-full text-left p-2 text-sm text-[#4A0E25] hover:bg-[#FCE4EC] rounded-lg transition-colors"
+                          className="w-full text-left p-1.5 sm:p-2 text-xs sm:text-sm text-[#4A0E25] hover:bg-[#FCE4EC] rounded-lg transition-colors"
                         >
                           {text}
                         </button>
@@ -5180,26 +5232,26 @@ function MessagesPage({
                 )}
 
                 {/* Input */}
-                <div className="p-3 sm:p-4 border-t border-[#FCE4EC] bg-white">
-                  <div className="flex items-center gap-2">
+                <div className="p-2 sm:p-3 md:p-4 border-t border-[#FCE4EC] bg-white">
+                  <div className="flex items-center gap-1 sm:gap-2">
                     <button
                       onClick={() => setShowIcebreakers(!showIcebreakers)}
-                      className="p-2.5 hover:bg-[#FCE4EC] rounded-lg transition-colors flex-shrink-0"
+                      className="p-1.5 sm:p-2.5 hover:bg-[#FCE4EC] rounded-lg transition-colors flex-shrink-0 min-h-[36px] sm:min-h-[44px] min-w-[36px] sm:min-w-[44px] flex items-center justify-center"
                       title="Icebreakers"
                     >
-                      <Sparkles size={18} className="text-[#C2185B]" />
+                      <Sparkles size={16} className="text-[#C2185B] sm:w-[18px] sm:h-[18px]" />
                     </button>
                     <button
-                      className="p-2.5 hover:bg-[#FCE4EC] rounded-lg transition-colors flex-shrink-0"
+                      className="p-1.5 sm:p-2.5 hover:bg-[#FCE4EC] rounded-lg transition-colors flex-shrink-0 min-h-[36px] sm:min-h-[44px] min-w-[36px] sm:min-w-[44px] flex items-center justify-center"
                       title="Attach file"
                     >
-                      <Paperclip size={18} className="text-[#AD1457]" />
+                      <Paperclip size={16} className="text-[#AD1457] sm:w-[18px] sm:h-[18px]" />
                     </button>
                     <button
-                      className="p-2.5 hover:bg-[#FCE4EC] rounded-lg transition-colors flex-shrink-0"
+                      className="p-1.5 sm:p-2.5 hover:bg-[#FCE4EC] rounded-lg transition-colors flex-shrink-0 min-h-[36px] sm:min-h-[44px] min-w-[36px] sm:min-w-[44px] flex items-center justify-center"
                       title="Emoji"
                     >
-                      <Smile size={18} className="text-[#AD1457]" />
+                      <Smile size={16} className="text-[#AD1457] sm:w-[18px] sm:h-[18px]" />
                     </button>
                     <input
                       type="text"
@@ -5207,23 +5259,23 @@ function MessagesPage({
                       onChange={(e) => setNewMessage(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                       placeholder="Type a message..."
-                      className="flex-1 p-2.5 sm:p-3 rounded-full border border-[#F8BBD9] focus:ring-2 focus:ring-[#EC407A] focus:border-transparent text-sm sm:text-base min-w-0"
+                      className="flex-1 p-2 sm:p-2.5 md:p-3 rounded-full border border-[#F8BBD9] focus:ring-2 focus:ring-[#EC407A] focus:border-transparent text-xs sm:text-sm md:text-base min-w-0 min-h-[36px] sm:min-h-[44px]"
                     />
                     <button
                       onClick={handleSendMessage}
                       disabled={!newMessage.trim()}
-                      className="p-2.5 sm:px-5 sm:py-3 bg-gradient-to-r from-[#880E4F] via-[#AD1457] to-[#C2185B] text-white rounded-full font-medium hover:from-[#5D0F3A] hover:via-[#880E4F] hover:to-[#AD1457] disabled:opacity-50 transition-all flex-shrink-0 shadow-md"
+                      className="p-2 sm:p-2.5 md:px-4 md:py-3 bg-gradient-to-r from-[#880E4F] via-[#AD1457] to-[#C2185B] text-white rounded-full font-medium hover:from-[#5D0F3A] hover:via-[#880E4F] hover:to-[#AD1457] disabled:opacity-50 transition-all flex-shrink-0 min-h-[36px] sm:min-h-[44px] min-w-[36px] sm:min-w-[44px] md:min-w-[52px] flex items-center justify-center shadow-md"
                     >
-                      <Send size={18} />
+                      <Send size={16} className="sm:w-[18px] sm:h-[18px]" />
                     </button>
                   </div>
                 </div>
               </>
             ) : (
               <div className="flex-1 flex items-center justify-center text-[#5D0F3A]">
-                <div className="text-center">
-                  <div className="text-5xl mb-4">💬</div>
-                  <p>Select a conversation to start messaging</p>
+                <div className="text-center p-4">
+                  <div className="text-4xl sm:text-5xl mb-4">💬</div>
+                  <p className="text-sm sm:text-base">Select a conversation to start messaging</p>
                 </div>
               </div>
             )}
@@ -5478,41 +5530,41 @@ function ProfilePage({
               </div>
             </div>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-4">
               {/* Basic Info */}
               <div>
-                <h3 className="text-lg font-semibold text-[#4A0E25] mb-4">Basic Information</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 bg-[#FFF0F5] rounded-lg">
-                    <p className="text-sm text-[#5D0F3A]">Age</p>
-                    <p className="font-semibold text-[#4A0E25]">{profile.age} years</p>
+                <h3 className="text-base font-semibold text-[#4A0E25] mb-3">Basic Information</h3>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="p-3 bg-[#FFF0F5] rounded-lg">
+                    <p className="text-xs text-[#5D0F3A]">Age</p>
+                    <p className="font-medium text-[#4A0E25] text-sm">{profile.age} years</p>
                   </div>
-                  <div className="p-4 bg-[#FFF0F5] rounded-lg">
-                    <p className="text-sm text-[#5D0F3A]">Height</p>
-                    <p className="font-semibold text-[#4A0E25]">{profile.height} cm</p>
+                  <div className="p-3 bg-[#FFF0F5] rounded-lg">
+                    <p className="text-xs text-[#5D0F3A]">Height</p>
+                    <p className="font-medium text-[#4A0E25] text-sm">{profile.height} cm</p>
                   </div>
-                  <div className="p-4 bg-[#FFF0F5] rounded-lg">
-                    <p className="text-sm text-[#5D0F3A]">Religion</p>
-                    <p className="font-semibold text-[#4A0E25]">{profile.religion}</p>
+                  <div className="p-3 bg-[#FFF0F5] rounded-lg">
+                    <p className="text-xs text-[#5D0F3A]">Religion</p>
+                    <p className="font-medium text-[#4A0E25] text-sm">{profile.religion}</p>
                   </div>
-                  <div className="p-4 bg-[#FFF0F5] rounded-lg">
-                    <p className="text-sm text-[#5D0F3A]">Mother Tongue</p>
-                    <p className="font-semibold text-[#4A0E25]">{profile.motherTongue}</p>
+                  <div className="p-3 bg-[#FFF0F5] rounded-lg">
+                    <p className="text-xs text-[#5D0F3A]">Mother Tongue</p>
+                    <p className="font-medium text-[#4A0E25] text-sm">{profile.motherTongue}</p>
                   </div>
                 </div>
               </div>
 
               {/* Education & Career */}
               <div>
-                <h3 className="text-lg font-semibold text-[#4A0E25] mb-4">Education & Career</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 bg-[#FFF0F5] rounded-lg">
-                    <p className="text-sm text-[#5D0F3A]">Education</p>
-                    <p className="font-semibold text-[#4A0E25]">{profile.education || 'Not specified'}</p>
+                <h3 className="text-base font-semibold text-[#4A0E25] mb-3">Education & Career</h3>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="p-3 bg-[#FFF0F5] rounded-lg">
+                    <p className="text-xs text-[#5D0F3A]">Education</p>
+                    <p className="font-medium text-[#4A0E25] text-sm">{profile.education || 'Not specified'}</p>
                   </div>
-                  <div className="p-4 bg-[#FFF0F5] rounded-lg">
-                    <p className="text-sm text-[#5D0F3A]">Occupation</p>
-                    <p className="font-semibold text-[#4A0E25]">{profile.occupation || 'Not specified'}</p>
+                  <div className="p-3 bg-[#FFF0F5] rounded-lg">
+                    <p className="text-xs text-[#5D0F3A]">Occupation</p>
+                    <p className="font-medium text-[#4A0E25] text-sm">{profile.occupation || 'Not specified'}</p>
                   </div>
                 </div>
               </div>
@@ -5520,8 +5572,8 @@ function ProfilePage({
               {/* Bio */}
               {profile.bio && (
                 <div>
-                  <h3 className="text-lg font-semibold text-[#4A0E25] mb-4">About Me</h3>
-                  <p className="text-[#5D0F3A]">{profile.bio}</p>
+                  <h3 className="text-base font-semibold text-[#4A0E25] mb-3">About Me</h3>
+                  <p className="text-sm text-[#5D0F3A]">{profile.bio}</p>
                 </div>
               )}
 
@@ -6295,13 +6347,27 @@ function ProfileViewPage({
     hobbies: extendedData.hobbies
   });
 
-  // Generate mock photo gallery (since we don't have real photos)
+  // Generate inline SVG avatar placeholders (no external dependency)
+  const avatarSeed = profile.name.replace(/\s+/g, '').toLowerCase();
+  const avatarColors = ['FCE4EC', 'F8BBD9', 'E1BEE7', 'FFCDD2', 'F3E5F5'];
+  const initial = profile.name.charAt(0).toUpperCase();
+  
+  const generateAvatarSVG = (color: string, text: string) => {
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#${color}"/>
+      <circle cx="50" cy="38" r="20" fill="#880E4F" opacity="0.3"/>
+      <ellipse cx="50" cy="85" rx="30" ry="25" fill="#880E4F" opacity="0.3"/>
+      <text x="50" y="55" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#880E4F" text-anchor="middle">${text}</text>
+    </svg>`;
+    return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+  };
+
   const photos = [
-    { id: 1, url: null, caption: 'Profile Photo', isPrimary: true },
-    { id: 2, url: null, caption: 'Lifestyle', isPrimary: false },
-    { id: 3, url: null, caption: 'With Family', isPrimary: false },
-    { id: 4, url: null, caption: 'Holiday', isPrimary: false },
-    { id: 5, url: null, caption: 'Professional', isPrimary: false },
+    { id: 1, url: generateAvatarSVG(avatarColors[0], initial), caption: 'Profile Photo', isPrimary: true },
+    { id: 2, url: generateAvatarSVG(avatarColors[1], initial), caption: 'Lifestyle', isPrimary: false },
+    { id: 3, url: generateAvatarSVG(avatarColors[2], initial), caption: 'With Family', isPrimary: false },
+    { id: 4, url: generateAvatarSVG(avatarColors[3], initial), caption: 'Holiday', isPrimary: false },
+    { id: 5, url: generateAvatarSVG(avatarColors[4], initial), caption: 'Professional', isPrimary: false },
   ];
 
   // Open lightbox with specific photo
@@ -6359,7 +6425,7 @@ function ProfileViewPage({
           {/* Close Button */}
           <button
             onClick={() => setShowLightbox(false)}
-            className="absolute top-4 right-4 w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-all z-10"
+            className="absolute top-4 right-4 w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/25 hover:scale-110 active:scale-95 transition-all duration-200 z-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
           >
             <X size={24} />
           </button>
@@ -6372,13 +6438,13 @@ function ProfileViewPage({
           {/* Navigation Arrows */}
           <button
             onClick={() => navigateLightbox('prev')}
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-all"
+            className="absolute left-4 top-1/2 -translate-y-1/2 w-14 h-14 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/25 hover:scale-110 active:scale-95 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
           >
             <ChevronLeft size={28} />
           </button>
           <button
             onClick={() => navigateLightbox('next')}
-            className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-all"
+            className="absolute right-4 top-1/2 -translate-y-1/2 w-14 h-14 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/25 hover:scale-110 active:scale-95 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
           >
             <ChevronRight size={28} />
           </button>
@@ -6404,13 +6470,15 @@ function ProfileViewPage({
               <button
                 key={photo.id}
                 onClick={() => setLightboxIndex(i)}
-                className={`w-14 h-14 rounded-lg overflow-hidden border-2 transition-all ${
-                  lightboxIndex === i ? 'border-white scale-110' : 'border-white/30 hover:border-white/60'
+                className={`w-14 h-14 rounded-xl overflow-hidden border-2 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white ${
+                  lightboxIndex === i ? 'border-white scale-110 shadow-lg' : 'border-white/30 hover:border-white/60 hover:scale-105 active:scale-95'
                 }`}
               >
-                <div className="w-full h-full bg-gradient-to-br from-[#FCE4EC] to-[#F8BBD9] flex items-center justify-center">
-                  <User size={20} className="text-[#C2185B]/40" />
-                </div>
+                <img
+                  src={photo.url}
+                  alt={photo.caption}
+                  className="w-full h-full object-cover bg-gradient-to-br from-[#FCE4EC] to-[#F8BBD9]"
+                />
               </button>
             ))}
           </div>
@@ -6421,143 +6489,214 @@ function ProfileViewPage({
       <div className="relative">
         {/* Photo Gallery - Clickable */}
         <div 
-          className="relative h-80 md:h-96 bg-gradient-to-br from-rose-200 via-pink-100 to-rose-200 cursor-pointer"
+          className="relative h-80 md:h-96 bg-gradient-to-br from-rose-100 via-pink-50 to-rose-100 cursor-pointer overflow-hidden"
           onClick={() => openLightbox(currentPhoto)}
         >
+          {/* Subtle background pattern */}
+          <div className="absolute inset-0 opacity-30">
+            <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-br from-[#880E4F]/10 to-transparent rounded-full blur-3xl" />
+            <div className="absolute bottom-0 right-0 w-64 h-64 bg-gradient-to-tl from-[#C2185B]/10 to-transparent rounded-full blur-3xl" />
+          </div>
+          
           <div className="absolute inset-0 flex items-center justify-center group">
-            <div className="w-40 h-40 md:w-48 md:h-48 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-2xl border-4 border-white group-hover:scale-105 transition-transform relative">
-              <User size={64} className="text-rose-400" />
-              {/* Gallery indicator overlay */}
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 rounded-full flex items-center justify-center transition-all">
-                <div className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-2 text-white">
-                  <ImageIcon size={20} />
-                  <span className="text-sm font-medium">{photos.length} Photos</span>
+            {/* Main circular avatar with enhanced glow */}
+            <div className="relative">
+              {/* Outer glow ring */}
+              <div className="absolute -inset-3 bg-gradient-to-br from-[#880E4F]/20 via-[#AD1457]/15 to-[#C2185B]/20 rounded-full blur-xl group-hover:blur-2xl transition-all duration-500" />
+              {/* Inner glow ring */}
+              <div className="absolute -inset-1 bg-gradient-to-br from-white/60 to-white/30 rounded-full" />
+              
+              {/* Main photo container - larger and more prominent */}
+              <div className="relative w-48 h-48 md:w-56 md:h-56 bg-white rounded-full flex items-center justify-center shadow-[0_8px_40px_-12px_rgba(136,14,79,0.35)] border-4 border-white group-hover:scale-[1.02] transition-transform duration-300 ease-out overflow-hidden">
+                <img 
+                  key={currentPhoto}
+                  src={photos[currentPhoto].url} 
+                  alt={profile.name}
+                  className="w-full h-full object-cover transition-opacity duration-300"
+                />
+                {/* Gallery indicator overlay */}
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/25 rounded-full flex items-center justify-center transition-all duration-300">
+                  <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center gap-2 text-white bg-black/30 backdrop-blur-sm px-4 py-2 rounded-full">
+                    <ImageIcon size={18} />
+                    <span className="text-sm font-semibold tracking-wide">{photos.length} Photos</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Photo Navigation Dots */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-            {photos.map((photo, i) => (
-              <button
-                key={i}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setCurrentPhoto(i);
-                }}
-                className={`w-2.5 h-2.5 rounded-full transition-all ${
-                  currentPhoto === i ? 'bg-white w-6' : 'bg-white/50 hover:bg-white/70'
-                }`}
-              />
-            ))}
-          </div>
+          {/* Left Navigation Arrow - Enhanced */}
+          {photos.length > 1 && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentPhoto((prev) => (prev === 0 ? photos.length - 1 : prev - 1));
+              }}
+              className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 bg-white/95 backdrop-blur-md rounded-full flex items-center justify-center text-[#880E4F] hover:bg-white hover:scale-110 active:scale-95 hover:shadow-xl shadow-lg border border-[#F8BBD9]/50 transition-all duration-200 z-10 group/btn focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2"
+              aria-label="Previous photo"
+            >
+              <ChevronLeft size={26} className="md:w-7 md:h-7 group-hover/btn:-translate-x-0.5 transition-transform duration-200" />
+            </button>
+          )}
 
-          {/* Watermark Overlay */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="bg-black/10 text-white/30 text-xs px-4 py-1 rounded-full backdrop-blur-sm rotate-12 border border-white/20">
-              🔒 Watermarked for Safety
+          {/* Right Navigation Arrow - Enhanced */}
+          {photos.length > 1 && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentPhoto((prev) => (prev === photos.length - 1 ? 0 : prev + 1));
+              }}
+              className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 bg-white/95 backdrop-blur-md rounded-full flex items-center justify-center text-[#880E4F] hover:bg-white hover:scale-110 active:scale-95 hover:shadow-xl shadow-lg border border-[#F8BBD9]/50 transition-all duration-200 z-10 group/btn focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2"
+              aria-label="Next photo"
+            >
+              <ChevronRight size={26} className="md:w-7 md:h-7 group-hover/btn:translate-x-0.5 transition-transform duration-200" />
+            </button>
+          )}
+
+          {/* Photo Navigation Dots - More Elegant */}
+          <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-white/80 backdrop-blur-md px-5 py-2.5 rounded-full shadow-lg border border-[#F8BBD9]/40">
+            <span className="text-xs font-medium text-[#880E4F] mr-1">{currentPhoto + 1}</span>
+            <span className="text-xs text-gray-400">/</span>
+            <span className="text-xs text-gray-500 mr-2">{photos.length}</span>
+            <div className="flex gap-1.5">
+              {photos.map((photo, i) => (
+                <button
+                  key={i}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentPhoto(i);
+                  }}
+                  className={`rounded-full transition-all duration-200 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] ${
+                    currentPhoto === i
+                      ? 'bg-gradient-to-br from-[#880E4F] via-[#AD1457] to-[#C2185B] w-6 h-2 shadow-md'
+                      : 'bg-gray-300 hover:bg-[#C2185B]/50 w-2 h-2 hover:scale-125 active:scale-110'
+                  }`}
+                  aria-label={`Go to photo ${i + 1}`}
+                />
+              ))}
             </div>
           </div>
 
-          {/* Back Button */}
+          {/* Watermark Overlay - More subtle */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="bg-black/5 text-white/40 text-[10px] px-3 py-0.5 rounded-full backdrop-blur-sm rotate-12 border border-white/10 tracking-wide">
+              🔒 Protected
+            </div>
+          </div>
+
+          {/* Back Button - Enhanced */}
           <button
             onClick={(e) => {
               e.stopPropagation();
               onNavigate('matches');
             }}
-            className="absolute top-4 left-4 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-700 hover:bg-white shadow-lg transition-all"
+            className="absolute top-4 left-4 w-11 h-11 bg-white/95 backdrop-blur-md rounded-full flex items-center justify-center text-[#880E4F] hover:bg-white hover:scale-110 active:scale-95 shadow-lg border border-[#F8BBD9]/50 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2"
           >
             <ArrowRight size={20} className="rotate-180" />
           </button>
 
-          {/* Share & More Options */}
+          {/* Share & More Options - Enhanced */}
           <div className="absolute top-4 right-4 flex gap-2">
-            <button 
+            <button
               onClick={(e) => e.stopPropagation()}
-              className="w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-700 hover:bg-white shadow-lg transition-all"
+              className="w-11 h-11 bg-white/95 backdrop-blur-md rounded-full flex items-center justify-center text-[#880E4F] hover:bg-white hover:scale-110 active:scale-95 shadow-lg border border-[#F8BBD9]/50 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2"
             >
               <Share2 size={18} />
             </button>
-            <button 
+            <button
               onClick={(e) => e.stopPropagation()}
-              className="w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-700 hover:bg-white shadow-lg transition-all"
+              className="w-11 h-11 bg-white/95 backdrop-blur-md rounded-full flex items-center justify-center text-[#880E4F] hover:bg-white hover:scale-110 active:scale-95 shadow-lg border border-[#F8BBD9]/50 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2"
             >
               <MoreVertical size={18} />
             </button>
           </div>
 
-          {/* Badges */}
-          <div className="absolute bottom-4 right-4 flex flex-col gap-2">
-            {profile.isPremium && (
-              <div className="bg-gradient-to-r from-amber-400 to-yellow-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg flex items-center gap-1.5">
-                <Crown size={14} /> Premium Member
-              </div>
-            )}
-            {profile.isVerified && (
-              <div className="bg-white/90 backdrop-blur-sm text-emerald-700 px-3 py-1.5 rounded-full text-xs font-medium shadow-lg flex items-center gap-1.5">
-                <ShieldCheck size={14} /> ID Verified
-              </div>
-            )}
-            {isOnline && (
-              <div className="bg-emerald-500 text-white px-3 py-1.5 rounded-full text-xs font-medium shadow-lg flex items-center gap-1.5">
-                <span className="w-2 h-2 bg-white rounded-full animate-pulse" /> Online Now
-              </div>
-            )}
-          </div>
         </div>
 
         {/* Profile Header */}
-        <div className="relative bg-white rounded-t-3xl -mt-6 shadow-lg border-t border-rose-100">
-          <div className="p-6 pb-4">
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <h1 className="text-2xl md:text-3xl font-bold text-gray-800">{profile.name}</h1>
-                <p className="text-gray-500 mt-1">
-                  {profile.age} yrs • {profile.height} cm • {profile.city}
+        <div className="relative bg-white rounded-t-3xl -mt-6 shadow-xl border-t border-rose-100">
+          <div className="px-5 pt-5 pb-4">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex-1 min-w-0">
+                {/* Name with status badges - Enhanced typography */}
+                <div className="flex items-center gap-2.5 flex-wrap">
+                  <h1 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">{profile.name}</h1>
+                  <div className="flex items-center gap-1.5">
+                    {profile.isPremium && (
+                      <span className="bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 text-white px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow-sm">
+                        <Crown size={11} /> Premium
+                      </span>
+                    )}
+                    {profile.isVerified && (
+                      <span className="bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full text-[10px] font-semibold flex items-center gap-1 border border-emerald-200/50">
+                        <ShieldCheck size={11} /> Verified
+                      </span>
+                    )}
+                    {isOnline && (
+                      <span className="bg-emerald-500 text-white px-2.5 py-1 rounded-full text-[10px] font-semibold flex items-center gap-1.5 shadow-sm">
+                        <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" /> Online
+                      </span>
+                    )}
+                  </div>
+                </div>
+                
+                {/* Subtle divider */}
+                <div className="h-px bg-gradient-to-r from-rose-100 via-rose-50 to-transparent mt-2.5 mb-2.5" />
+                
+                {/* Info line - refined typography */}
+                <p className="text-gray-600 text-sm md:text-base font-medium">
+                  <span className="text-gray-800">{profile.age} yrs</span>
+                  <span className="text-gray-300 mx-2">•</span>
+                  <span>{profile.height} cm</span>
+                  <span className="text-gray-300 mx-2">•</span>
+                  <span className="text-[#880E4F]">{profile.city}</span>
                 </p>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  <span className="bg-rose-50 text-rose-700 px-3 py-1 rounded-full text-sm">{profile.religion}</span>
-                  <span className="bg-violet-50 text-violet-700 px-3 py-1 rounded-full text-sm">{profile.motherTongue}</span>
-                  <span className="bg-sky-50 text-sky-700 px-3 py-1 rounded-full text-sm">{profile.maritalStatus.replace('_', ' ')}</span>
+                
+                {/* Attribute pills - refined with better spacing */}
+                <div className="flex flex-wrap gap-2 mt-3">
+                  <span className="bg-gradient-to-r from-rose-50 to-pink-50 text-[#880E4F] px-3 py-1.5 rounded-full text-xs font-medium border border-rose-100/50 shadow-sm">{profile.religion}</span>
+                  <span className="bg-gradient-to-r from-violet-50 to-purple-50 text-violet-700 px-3 py-1.5 rounded-full text-xs font-medium border border-violet-100/50 shadow-sm">{profile.motherTongue}</span>
+                  <span className="bg-gradient-to-r from-sky-50 to-blue-50 text-sky-700 px-3 py-1.5 rounded-full text-xs font-medium border border-sky-100/50 shadow-sm">{profile.maritalStatus.replace('_', ' ')}</span>
+                  {profile.occupation && (
+                    <span className="bg-gradient-to-r from-amber-50 to-orange-50 text-amber-700 px-3 py-1.5 rounded-full text-xs font-medium border border-amber-100/50 shadow-sm">{profile.occupation}</span>
+                  )}
+                </div>
+                
+                {/* Match Score - Enhanced badge design */}
+                <div className="mt-4 flex items-center gap-2">
+                  <div className={`relative px-4 py-2 rounded-xl ${compatColor.bg} flex items-center gap-2.5 shadow-md border border-current/10 overflow-hidden group`}
+                       style={{ borderColor: compatColor.text.replace('text-', '').replace('-700', '-200') }}>
+                    {/* Animated shine effect */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+                    <div className="flex items-baseline gap-1">
+                      <span className={`text-lg font-bold ${compatColor.text}`}>{compatibilityScore}%</span>
+                      <span className={`text-xs font-medium ${compatColor.text} opacity-80`}>Match</span>
+                    </div>
+                    <div className={`w-px h-4 ${compatColor.text.replace('text-', 'bg-').replace('-700', '-300')}`} />
+                    <span className={`text-xs font-medium ${compatColor.text} opacity-70`}>{getCompatibilityLabel(compatibilityScore)}</span>
+                  </div>
                 </div>
               </div>
               
-              {/* Enhanced Compatibility Score Meter */}
-              <div className="flex flex-col items-center ml-4">
-                <div className={`relative w-24 h-24 p-1 rounded-full ${compatColor.bg}`}>
-                  <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                    <circle 
-                      cx="50" cy="50" r="42" 
-                      stroke="#E5E7EB" 
-                      strokeWidth="8" 
-                      fill="none" 
-                    />
-                    <circle 
-                      cx="50" cy="50" r="42" 
-                      stroke={compatColor.ring} 
-                      strokeWidth="8" 
-                      fill="none" 
-                      strokeDasharray={`${(compatibilityScore / 100) * 264} 264`}
-                      strokeLinecap="round"
-                      className="transition-all duration-1000"
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className={`text-2xl font-bold ${compatColor.text}`}>{compatibilityScore}%</span>
-                    <span className="text-[10px] text-gray-400 uppercase tracking-wider">Match</span>
-                  </div>
-                </div>
-                <div className={`mt-2 px-3 py-1 rounded-full text-xs font-semibold ${compatColor.bg} ${compatColor.text}`}>
-                  {getCompatibilityLabel(compatibilityScore)}
+              {/* Profile Photo Thumbnail - with subtle border/glow */}
+              <div className="relative flex-shrink-0">
+                {/* Glow effect */}
+                <div className="absolute -inset-1 bg-gradient-to-br from-[#880E4F]/20 to-[#C2185B]/20 rounded-xl blur-md" />
+                <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden shadow-lg border-2 border-white bg-gradient-to-br from-rose-50 to-pink-50">
+                  <img
+                    key={`thumb-${currentPhoto}`}
+                    src={photos[currentPhoto].url}
+                    alt={profile.name}
+                    className="w-full h-full object-cover transition-opacity duration-300"
+                  />
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Section Navigation Tabs */}
+          {/* Section Navigation Tabs - Enhanced */}
           <div className="px-4 pb-3 overflow-x-auto scrollbar-hide">
-            <div className="flex gap-1 min-w-max">
+            <div className="flex gap-2 min-w-max">
               {[
                 { id: 'about', label: 'About', icon: User },
                 { id: 'education', label: 'Education & Career', icon: GraduationCap },
@@ -6568,15 +6707,24 @@ function ProfileViewPage({
                 <button
                   key={section.id}
                   onClick={() => setActiveSection(section.id)}
-                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                  className={`relative flex items-center gap-2 px-4 py-2.5 rounded-2xl text-sm font-medium transition-all duration-300 ease-out transform focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
                     activeSection === section.id
-                      ? 'bg-gradient-to-r from-[#880E4F] to-[#AD1457] text-white shadow-md'
-                      : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+                      ? 'bg-gradient-to-br from-[#880E4F] via-[#AD1457] to-[#C2185B] text-white shadow-lg shadow-[#880E4F]/30 scale-[1.02] ring-2 ring-[#F8BBD9]/40'
+                      : 'bg-white text-[#5D0F3A] hover:bg-gradient-to-br hover:from-[#FCE4EC] hover:to-[#FFF0F5] hover:scale-[1.02] hover:shadow-md border border-[#F8BBD9]/60 hover:border-[#C2185B]/40'
                   }`}
                 >
-                  <section.icon size={14} />
-                  <span className="hidden sm:inline">{section.label}</span>
-                  <span className="sm:hidden">{section.label.split(' ')[0]}</span>
+                  {/* Active indicator glow */}
+                  {activeSection === section.id && (
+                    <span className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
+                  )}
+                  <section.icon 
+                    size={16} 
+                    className={`transition-transform duration-300 flex-shrink-0 ${activeSection === section.id ? 'scale-110 drop-shadow-sm' : 'group-hover:scale-105'}`} 
+                  />
+                  <span className="hidden sm:inline whitespace-nowrap">{section.label}</span>
+                  <span className="sm:hidden whitespace-nowrap">{section.label.split(' ')[0]}</span>
+                  {/* Touch ripple effect placeholder */}
+                  <span className="absolute inset-0 rounded-2xl active:bg-white/10 pointer-events-none" />
                 </button>
               ))}
             </div>
@@ -6584,42 +6732,49 @@ function ProfileViewPage({
         </div>
       </div>
 
-      {/* Sticky Action Bar */}
+      {/* Sticky Action Bar - Enhanced */}
       {showActions && (
-        <div className="sticky top-16 z-40 bg-white/95 backdrop-blur-sm border-b border-rose-100 shadow-sm">
-          <div className="max-w-4xl mx-auto px-4 py-3 flex items-center gap-3 overflow-x-auto">
+        <div className="sticky top-16 z-40 bg-white/95 backdrop-blur-md border-b border-[#F8BBD9]/50 shadow-[0_4px_20px_-8px_rgba(136,14,79,0.15)]">
+          <div className="max-w-4xl mx-auto px-4 py-3 flex items-center gap-3 overflow-x-auto scrollbar-hide">
             {interestSent ? (
-              <div className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-emerald-50 text-emerald-700 rounded-xl font-medium">
-                <Check size={18} /> Interest Sent
+              <div className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-gradient-to-br from-emerald-50 via-emerald-100 to-emerald-50 text-emerald-700 rounded-2xl font-semibold border border-emerald-200/80 shadow-sm">
+                <Check size={20} className="text-emerald-600" /> Interest Sent
               </div>
             ) : (
               <button
                 onClick={() => sendInterest(profile)}
-                className="flex-1 py-2.5 bg-gradient-to-r from-[#880E4F] to-[#AD1457] text-white rounded-xl font-medium hover:from-[#5D0F3A] hover:to-[#880E4F] transition-all flex items-center justify-center gap-2 shadow-md"
+                className="relative flex-1 py-3.5 bg-gradient-to-br from-[#880E4F] via-[#AD1457] to-[#C2185B] text-white rounded-2xl font-semibold hover:from-[#6B0D3C] hover:via-[#880E4F] hover:to-[#AD1457] active:from-[#4A0E25] active:via-[#6B0D3C] active:to-[#880E4F] transition-all duration-300 ease-out flex items-center justify-center gap-2.5 shadow-lg shadow-[#880E4F]/35 hover:shadow-xl hover:shadow-[#880E4F]/45 active:shadow-md active:shadow-[#880E4F]/30 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 focus-visible:ring-offset-white min-h-[52px] overflow-hidden group"
               >
-                <Heart size={18} /> Send Interest
+                {/* Shimmer effect */}
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
+                <Heart size={20} className="transition-transform duration-200 group-hover:scale-110 group-active:scale-90 relative z-10" />
+                <span className="relative z-10">Send Interest</span>
               </button>
             )}
             <button
               onClick={() => shortlistProfile(profile.userId)}
-              className={`px-4 py-2.5 rounded-xl font-medium transition-all flex items-center gap-2 ${
+              className={`relative px-5 py-3.5 rounded-2xl font-semibold transition-all duration-300 ease-out flex items-center gap-2.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 min-h-[52px] hover:scale-[1.02] active:scale-[0.98] ${
                 shortlisted.includes(profile.userId)
-                  ? 'bg-amber-100 text-amber-700'
-                  : 'bg-gray-100 text-gray-700 hover:bg-amber-50 hover:text-amber-600'
+                  ? 'bg-gradient-to-br from-amber-100 via-amber-200 to-amber-100 text-amber-800 border-2 border-amber-300/80 shadow-md shadow-amber-200/40 focus-visible:ring-amber-400 hover:shadow-lg hover:shadow-amber-300/50'
+                  : 'bg-white text-[#880E4F] hover:bg-gradient-to-br hover:from-[#FCE4EC] hover:to-[#FFF0F5] shadow-sm hover:shadow-md focus-visible:ring-[#C2185B] border border-[#F8BBD9]/80 hover:border-[#C2185B]/50'
               }`}
             >
-              {shortlisted.includes(profile.userId) ? <Bookmark size={18} className="fill-current" /> : <Bookmark size={18} />}
+              {shortlisted.includes(profile.userId) ? (
+                <Bookmark size={20} className="fill-amber-600 text-amber-600 transition-transform duration-200 group-hover:scale-110" />
+              ) : (
+                <Bookmark size={20} className="transition-transform duration-200 group-hover:scale-110" />
+              )}
               <span className="hidden sm:inline">{shortlisted.includes(profile.userId) ? 'Shortlisted' : 'Shortlist'}</span>
             </button>
-            <button className="px-4 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-all flex items-center gap-2 md:hidden">
-              <Share2 size={18} />
+            <button className="relative px-5 py-3.5 bg-white text-[#880E4F] rounded-2xl font-semibold hover:bg-gradient-to-br hover:from-[#FCE4EC] hover:to-[#FFF0F5] transition-all duration-300 ease-out flex items-center gap-2.5 md:hidden shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 min-h-[52px] border border-[#F8BBD9]/80 hover:border-[#C2185B]/50">
+              <Share2 size={20} className="transition-transform duration-200 group-hover:scale-110" />
             </button>
-            <button className="px-4 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-all flex items-center gap-2 hidden md:flex">
-              <MessageCircle size={18} />
+            <button className="relative px-5 py-3.5 bg-white text-[#880E4F] rounded-2xl font-semibold hover:bg-gradient-to-br hover:from-[#FCE4EC] hover:to-[#FFF0F5] transition-all duration-300 ease-out flex items-center gap-2.5 hidden md:flex shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 min-h-[52px] border border-[#F8BBD9]/80 hover:border-[#C2185B]/50">
+              <MessageCircle size={20} className="transition-transform duration-200 group-hover:scale-110" />
               <span className="hidden sm:inline">Chat</span>
             </button>
-            <button className="px-4 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-all flex items-center gap-2 hidden md:flex">
-              <Phone size={18} />
+            <button className="relative px-5 py-3.5 bg-white text-[#880E4F] rounded-2xl font-semibold hover:bg-gradient-to-br hover:from-[#FCE4EC] hover:to-[#FFF0F5] transition-all duration-300 ease-out flex items-center gap-2.5 hidden md:flex shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C2185B] focus-visible:ring-offset-2 min-h-[52px] border border-[#F8BBD9]/80 hover:border-[#C2185B]/50">
+              <Phone size={20} className="transition-transform duration-200 group-hover:scale-110" />
               <span className="hidden sm:inline">Call</span>
             </button>
           </div>
@@ -6652,38 +6807,64 @@ function ProfileViewPage({
             </section>
 
             {/* Basic Information */}
-            <section className="bg-white rounded-2xl shadow-sm border border-rose-100/50 p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-sky-100 rounded-xl flex items-center justify-center">
-                  <UserCircle size={20} className="text-sky-600" />
+            <section className="bg-white rounded-2xl shadow-sm border border-rose-100/50 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-rose-200/60">
+              {/* Header with gradient accent */}
+              <div className="relative px-5 pt-5 pb-4">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-sky-400 via-sky-500 to-blue-500" />
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-sky-100 to-blue-100 rounded-xl flex items-center justify-center shadow-sm ring-1 ring-sky-200/50">
+                    <UserCircle size={20} className="text-sky-600" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-bold text-gray-800 tracking-tight">Basic Information</h2>
+                    <p className="text-xs text-gray-400 mt-0.5">Personal details & background</p>
+                  </div>
                 </div>
-                <h2 className="text-lg font-bold text-gray-800">Basic Information</h2>
+                {/* Subtle separator line */}
+                <div className="absolute bottom-0 left-5 right-5 h-px bg-gradient-to-r from-transparent via-gray-200/80 to-transparent" />
               </div>
-              <div className="grid sm:grid-cols-2 gap-3">
-                <InfoRow label="Age" value={`${profile.age} years`} />
-                <InfoRow label="Height" value={`${profile.height} cm`} />
-                <InfoRow label="Marital Status" value={profile.maritalStatus.replace('_', ' ')} />
-                <InfoRow label="Mother Tongue" value={profile.motherTongue} />
+              
+              {/* Content */}
+              <div className="px-5 pb-5 pt-2">
+                <div className="grid sm:grid-cols-2 gap-2.5">
+                  <InfoRow label="Age" value={`${profile.age} years`} />
+                  <InfoRow label="Height" value={`${profile.height} cm`} />
+                  <InfoRow label="Marital Status" value={profile.maritalStatus.replace('_', ' ')} />
+                  <InfoRow label="Mother Tongue" value={profile.motherTongue} />
+                </div>
               </div>
             </section>
 
             {/* Religious & Astrological Background */}
-            <section className="bg-white rounded-2xl shadow-sm border border-rose-100/50 p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-violet-100 rounded-xl flex items-center justify-center">
-                  <Sparkles size={20} className="text-violet-600" />
+            <section className="bg-white rounded-2xl shadow-sm border border-rose-100/50 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-rose-200/60">
+              {/* Header with gradient accent */}
+              <div className="relative px-5 pt-5 pb-4">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-violet-400 via-purple-500 to-indigo-500" />
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-violet-100 to-purple-100 rounded-xl flex items-center justify-center shadow-sm ring-1 ring-violet-200/50">
+                    <Sparkles size={20} className="text-violet-600" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-bold text-gray-800 tracking-tight">Religious & Astrological</h2>
+                    <p className="text-xs text-gray-400 mt-0.5">Spiritual background & beliefs</p>
+                  </div>
                 </div>
-                <h2 className="text-lg font-bold text-gray-800">Religious & Astrological</h2>
+                {/* Subtle separator line */}
+                <div className="absolute bottom-0 left-5 right-5 h-px bg-gradient-to-r from-transparent via-gray-200/80 to-transparent" />
               </div>
-              <div className="grid sm:grid-cols-2 gap-3">
-                <InfoRow label="Religion" value={profile.religion} />
-                {profile.caste && <InfoRow label="Caste" value={profile.caste} />}
-                {extendedData.gothra && <InfoRow label="Gothra" value={extendedData.gothra} />}
-                {extendedData.rashi && <InfoRow label="Rashi (Moon Sign)" value={extendedData.rashi} />}
-                {extendedData.nakshatra && <InfoRow label="Nakshatra (Star)" value={extendedData.nakshatra} />}
-                <InfoRow label="Manglik/Kuja Dosham" value={extendedData.manglik} />
-                {extendedData.birthTime && <InfoRow label="Birth Time" value={extendedData.birthTime} />}
-                {extendedData.birthPlace && <InfoRow label="Birth Place" value={extendedData.birthPlace} />}
+              
+              {/* Content */}
+              <div className="px-5 pb-5 pt-2">
+                <div className="grid sm:grid-cols-2 gap-2.5">
+                  <InfoRow label="Religion" value={profile.religion} />
+                  {profile.caste && <InfoRow label="Caste" value={profile.caste} />}
+                  {extendedData.gothra && <InfoRow label="Gothra" value={extendedData.gothra} />}
+                  {extendedData.rashi && <InfoRow label="Rashi" value={extendedData.rashi} />}
+                  {extendedData.nakshatra && <InfoRow label="Nakshatra" value={extendedData.nakshatra} />}
+                  <InfoRow label="Manglik" value={extendedData.manglik} />
+                  {extendedData.birthTime && <InfoRow label="Birth Time" value={extendedData.birthTime} />}
+                  {extendedData.birthPlace && <InfoRow label="Birth Place" value={extendedData.birthPlace} />}
+                </div>
               </div>
             </section>
           </>
@@ -6691,24 +6872,37 @@ function ProfileViewPage({
 
         {/* Education & Career Section */}
         {activeSection === 'education' && (
-          <section className="bg-white rounded-2xl shadow-sm border border-rose-100/50 p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-[#880E4F] to-[#AD1457] rounded-xl flex items-center justify-center shadow-md">
-                <GraduationCap size={20} className="text-white" />
+          <section className="bg-white rounded-2xl shadow-sm border border-rose-100/50 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-rose-200/60">
+            {/* Header with gradient accent */}
+            <div className="relative px-5 pt-5 pb-4">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#880E4F] via-[#AD1457] to-rose-500" />
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-[#880E4F] to-[#AD1457] rounded-xl flex items-center justify-center shadow-md ring-1 ring-[#880E4F]/20">
+                  <GraduationCap size={20} className="text-white" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-bold text-gray-800 tracking-tight">Education & Career</h2>
+                  <p className="text-xs text-gray-400 mt-0.5">Academic & professional background</p>
+                </div>
               </div>
-              <h2 className="text-xl font-bold text-gray-800">Education & Career</h2>
+              {/* Subtle separator line */}
+              <div className="absolute bottom-0 left-5 right-5 h-px bg-gradient-to-r from-transparent via-gray-200/80 to-transparent" />
             </div>
-            <div className="grid sm:grid-cols-2 gap-3">
-              <InfoRow label="Education" value={profile.education || 'Not specified'} />
-              {extendedData.college && <InfoRow label="College" value={extendedData.college} />}
-              <InfoRow label="Occupation" value={profile.occupation || 'Not specified'} />
-              {extendedData.company && <InfoRow label="Company" value={extendedData.company} />}
-              <InfoRow label="Annual Income" value={`₹${((profile.annualIncome || 0) / 100000).toFixed(0)} LPA`} />
+            
+            {/* Content */}
+            <div className="px-5 pb-5 pt-2">
+              <div className="grid sm:grid-cols-2 gap-2.5">
+                <InfoRow label="Education" value={profile.education || 'Not specified'} />
+                {extendedData.college && <InfoRow label="College" value={extendedData.college} />}
+                <InfoRow label="Occupation" value={profile.occupation || 'Not specified'} />
+                {extendedData.company && <InfoRow label="Company" value={extendedData.company} />}
+                <InfoRow label="Annual Income" value={`₹${((profile.annualIncome || 0) / 100000).toFixed(0)} LPA`} />
+              </div>
             </div>
             
             {/* Career Highlights */}
-            <div className="mt-6 p-4 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl border border-emerald-100">
-              <h3 className="font-semibold text-emerald-800 mb-2 flex items-center gap-2">
+            <div className="mx-5 mb-5 p-4 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl border border-emerald-100">
+              <h3 className="font-semibold text-emerald-800 mb-3 flex items-center gap-2 text-sm">
                 <Briefcase size={16} /> Career Highlights
               </h3>
               <ul className="space-y-2 text-sm text-gray-600">
@@ -6731,30 +6925,43 @@ function ProfileViewPage({
 
         {/* Family Details Section */}
         {activeSection === 'family' && (
-          <section className="bg-white rounded-2xl shadow-sm border border-rose-100/50 p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-[#880E4F] to-[#AD1457] rounded-xl flex items-center justify-center shadow-md">
-                <Users size={20} className="text-white" />
+          <section className="bg-white rounded-2xl shadow-sm border border-rose-100/50 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-rose-200/60">
+            {/* Header with gradient accent */}
+            <div className="relative px-5 pt-5 pb-4">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-orange-500 to-amber-500" />
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-amber-100 to-orange-100 rounded-xl flex items-center justify-center shadow-sm ring-1 ring-amber-200/50">
+                  <Users size={20} className="text-amber-600" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-bold text-gray-800 tracking-tight">Family Details</h2>
+                  <p className="text-xs text-gray-400 mt-0.5">Family background & values</p>
+                </div>
               </div>
-              <h2 className="text-xl font-bold text-gray-800">Family Details</h2>
+              {/* Subtle separator line */}
+              <div className="absolute bottom-0 left-5 right-5 h-px bg-gradient-to-r from-transparent via-gray-200/80 to-transparent" />
             </div>
-            <div className="grid sm:grid-cols-2 gap-3">
-              {extendedData.fatherOccupation && <InfoRow label="Father's Occupation" value={extendedData.fatherOccupation} />}
-              {extendedData.motherOccupation && <InfoRow label="Mother's Occupation" value={extendedData.motherOccupation} />}
-              {extendedData.siblings && (
-                <InfoRow 
-                  label="Siblings" 
-                  value={`${extendedData.siblings.brothers} Brother(s), ${extendedData.siblings.sisters} Sister(s)`} 
-                />
-              )}
-              <InfoRow label="Family Type" value={extendedData.familyType} />
-              <InfoRow label="Family Values" value={extendedData.familyValues} />
-              <InfoRow label="Family Status" value={extendedData.familyStatus} />
+            
+            {/* Content */}
+            <div className="px-5 pb-5 pt-2">
+              <div className="grid sm:grid-cols-2 gap-2.5">
+                {extendedData.fatherOccupation && <InfoRow label="Father's Occupation" value={extendedData.fatherOccupation} />}
+                {extendedData.motherOccupation && <InfoRow label="Mother's Occupation" value={extendedData.motherOccupation} />}
+                {extendedData.siblings && (
+                  <InfoRow 
+                    label="Siblings" 
+                    value={`${extendedData.siblings.brothers} Brother(s), ${extendedData.siblings.sisters} Sister(s)`} 
+                  />
+                )}
+                <InfoRow label="Family Type" value={extendedData.familyType} />
+                <InfoRow label="Family Values" value={extendedData.familyValues} />
+                <InfoRow label="Family Status" value={extendedData.familyStatus} />
+              </div>
             </div>
             
             {/* Family Summary Card */}
-            <div className="mt-6 p-4 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-100">
-              <h3 className="font-semibold text-amber-800 mb-2 flex items-center gap-2">
+            <div className="mx-5 mb-5 p-4 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-100">
+              <h3 className="font-semibold text-amber-800 mb-2 flex items-center gap-2 text-sm">
                 <Users size={16} /> Family Background
               </h3>
               <p className="text-sm text-gray-600 leading-relaxed">
@@ -6770,88 +6977,122 @@ function ProfileViewPage({
         {/* Lifestyle Section */}
         {activeSection === 'lifestyle' && (
           <>
-            <section className="bg-white rounded-2xl shadow-sm border border-rose-100/50 p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-[#880E4F] to-[#AD1457] rounded-xl flex items-center justify-center shadow-md">
-                  <Sparkles size={20} className="text-white" />
+            <section className="bg-white rounded-2xl shadow-sm border border-rose-100/50 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-rose-200/60">
+              {/* Header with gradient accent */}
+              <div className="relative px-5 pt-5 pb-4">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-400 via-pink-500 to-rose-500" />
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-rose-100 to-pink-100 rounded-xl flex items-center justify-center shadow-sm ring-1 ring-rose-200/50">
+                    <Sparkles size={20} className="text-rose-600" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-bold text-gray-800 tracking-tight">Lifestyle</h2>
+                    <p className="text-xs text-gray-400 mt-0.5">Habits & preferences</p>
+                  </div>
                 </div>
-                <h2 className="text-xl font-bold text-gray-800">Lifestyle</h2>
+                {/* Subtle separator line */}
+                <div className="absolute bottom-0 left-5 right-5 h-px bg-gradient-to-r from-transparent via-gray-200/80 to-transparent" />
               </div>
-              <div className="grid sm:grid-cols-2 gap-3">
-                <InfoRow label="Diet" value={extendedData.diet} />
-                <InfoRow label="Drinking" value={extendedData.drinking} />
-                <InfoRow label="Smoking" value={extendedData.smoking} />
-                {extendedData.bloodGroup && <InfoRow label="Blood Group" value={extendedData.bloodGroup} />}
+              
+              {/* Content */}
+              <div className="px-5 pb-5 pt-2">
+                <div className="grid sm:grid-cols-2 gap-2.5">
+                  <InfoRow label="Diet" value={extendedData.diet} />
+                  <InfoRow label="Drinking" value={extendedData.drinking} />
+                  <InfoRow label="Smoking" value={extendedData.smoking} />
+                  {extendedData.bloodGroup && <InfoRow label="Blood Group" value={extendedData.bloodGroup} />}
+                </div>
               </div>
             </section>
 
             {/* Personality & Love Language */}
-            <section className="bg-white rounded-2xl shadow-sm border border-rose-100/50 p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-pink-100 rounded-xl flex items-center justify-center">
-                  <Heart size={20} className="text-pink-600" />
+            <section className="bg-white rounded-2xl shadow-sm border border-rose-100/50 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-rose-200/60">
+              {/* Header with gradient accent */}
+              <div className="relative px-5 pt-5 pb-4">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-pink-400 via-rose-500 to-red-400" />
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-pink-100 to-rose-100 rounded-xl flex items-center justify-center shadow-sm ring-1 ring-pink-200/50">
+                    <Heart size={20} className="text-pink-600" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-bold text-gray-800 tracking-tight">Personality & Love Language</h2>
+                    <p className="text-xs text-gray-400 mt-0.5">What makes them unique</p>
+                  </div>
                 </div>
-                <h2 className="text-lg font-bold text-gray-800">Personality & Love Language</h2>
+                {/* Subtle separator line */}
+                <div className="absolute bottom-0 left-5 right-5 h-px bg-gradient-to-r from-transparent via-gray-200/80 to-transparent" />
               </div>
               
-              <div className="grid sm:grid-cols-2 gap-4">
-                {extendedData.personalityType && (
-                  <div className="p-4 bg-gradient-to-br from-violet-50 to-purple-50 rounded-xl border border-violet-100">
-                    <p className="text-sm text-gray-500 mb-1">MBTI Personality</p>
-                    <p className="text-xl font-bold text-violet-700">{extendedData.personalityType}</p>
-                    <p className="text-sm text-gray-600 mt-1">
-                      {extendedData.personalityType.includes('E') ? 'Extrovert' : 'Introvert'} • 
-                      {extendedData.personalityType.includes('N') ? ' Intuitive' : ' Sensing'} • 
-                      {extendedData.personalityType.includes('F') ? ' Feeling' : ' Thinking'} • 
-                      {extendedData.personalityType.includes('P') ? ' Perceiving' : ' Judging'}
-                    </p>
-                  </div>
-                )}
-                {extendedData.loveLanguage && (
-                  <div className="p-4 bg-gradient-to-br from-rose-50 to-pink-50 rounded-xl border border-rose-100">
-                    <p className="text-sm text-gray-500 mb-1">Primary Love Language</p>
-                    <p className="text-xl font-bold text-rose-700">{extendedData.loveLanguage}</p>
-                    <p className="text-sm text-gray-600 mt-1">
-                      {extendedData.loveLanguage === 'Quality Time' && 'Values undivided attention and meaningful moments'}
-                      {extendedData.loveLanguage === 'Words of Affirmation' && 'Appreciates verbal encouragement and compliments'}
-                      {extendedData.loveLanguage === 'Acts of Service' && 'Values helpful actions and thoughtful gestures'}
-                      {extendedData.loveLanguage === 'Gifts' && 'Appreciates thoughtful presents and tokens of love'}
-                      {extendedData.loveLanguage === 'Physical Touch' && 'Values physical connection and closeness'}
-                    </p>
-                  </div>
-                )}
+              {/* Content */}
+              <div className="px-5 pb-5 pt-2">
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {extendedData.personalityType && (
+                    <div className="p-4 bg-gradient-to-br from-violet-50 to-purple-50 rounded-xl border border-violet-100 transition-all duration-300 hover:shadow-md hover:border-violet-200">
+                      <p className="text-xs text-gray-500 mb-1 font-medium">MBTI Personality</p>
+                      <p className="text-xl font-bold text-violet-700 tracking-tight">{extendedData.personalityType}</p>
+                      <p className="text-xs text-gray-600 mt-1 leading-relaxed">
+                        {extendedData.personalityType.includes('E') ? 'Extrovert' : 'Introvert'} • 
+                        {extendedData.personalityType.includes('N') ? ' Intuitive' : ' Sensing'} • 
+                        {extendedData.personalityType.includes('F') ? ' Feeling' : ' Thinking'} • 
+                        {extendedData.personalityType.includes('P') ? ' Perceiving' : ' Judging'}
+                      </p>
+                    </div>
+                  )}
+                  {extendedData.loveLanguage && (
+                    <div className="p-4 bg-gradient-to-br from-rose-50 to-pink-50 rounded-xl border border-rose-100 transition-all duration-300 hover:shadow-md hover:border-rose-200">
+                      <p className="text-xs text-gray-500 mb-1 font-medium">Primary Love Language</p>
+                      <p className="text-xl font-bold text-rose-700 tracking-tight">{extendedData.loveLanguage}</p>
+                      <p className="text-xs text-gray-600 mt-1 leading-relaxed">
+                        {extendedData.loveLanguage === 'Quality Time' && 'Values undivided attention and meaningful moments'}
+                        {extendedData.loveLanguage === 'Words of Affirmation' && 'Appreciates verbal encouragement and compliments'}
+                        {extendedData.loveLanguage === 'Acts of Service' && 'Values helpful actions and thoughtful gestures'}
+                        {extendedData.loveLanguage === 'Gifts' && 'Appreciates thoughtful presents and tokens of love'}
+                        {extendedData.loveLanguage === 'Physical Touch' && 'Values physical connection and closeness'}
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
             </section>
 
             {/* Voice Note Section */}
-            <section className="bg-white rounded-2xl shadow-sm border border-rose-100/50 p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-sky-100 rounded-xl flex items-center justify-center">
-                  <Mic size={20} className="text-sky-600" />
+            <section className="bg-white rounded-2xl shadow-sm border border-rose-100/50 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-rose-200/60">
+              {/* Header with gradient accent */}
+              <div className="relative px-5 pt-5 pb-4">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-sky-400 via-blue-500 to-cyan-500" />
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-sky-100 to-blue-100 rounded-xl flex items-center justify-center shadow-sm ring-1 ring-sky-200/50">
+                    <Mic size={20} className="text-sky-600" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-bold text-gray-800 tracking-tight">Voice Introduction</h2>
+                    <p className="text-xs text-gray-400 mt-0.5">A personal message from {profile.name.split(' ')[0]}</p>
+                  </div>
                 </div>
-                <div>
-                  <h2 className="text-lg font-bold text-gray-800">Voice Introduction</h2>
-                  <p className="text-sm text-gray-500">A personal message from {profile.name.split(' ')[0]}</p>
-                </div>
+                {/* Subtle separator line */}
+                <div className="absolute bottom-0 left-5 right-5 h-px bg-gradient-to-r from-transparent via-gray-200/80 to-transparent" />
               </div>
               
-              <div className="bg-gradient-to-r from-sky-50 to-blue-50 rounded-xl p-4 flex items-center gap-4">
-                <button className="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-all text-sky-600 hover:text-sky-700">
-                  <Play size={24} />
-                </button>
-                <div className="flex-1">
-                  <div className="flex gap-0.5 items-center h-10">
-                    {[...Array(40)].map((_, i) => (
-                      <div
-                        key={i}
-                        className="w-1 bg-sky-300 rounded-full"
-                        style={{ height: `${Math.random() * 100}%` }}
-                      />
-                    ))}
-                  </div>
-                  <div className="flex justify-between mt-1 text-xs text-gray-500">
-                    <span>0:00</span>
-                    <span>0:15</span>
+              {/* Content */}
+              <div className="px-5 pb-5 pt-2">
+                <div className="bg-gradient-to-r from-sky-50 to-blue-50 rounded-xl p-4 flex items-center gap-4 border border-sky-100">
+                  <button className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-all text-sky-600 hover:text-sky-700 hover:scale-105 transform">
+                    <Play size={20} />
+                  </button>
+                  <div className="flex-1">
+                    <div className="flex gap-0.5 items-center h-10">
+                      {[30, 50, 70, 40, 60, 80, 45, 55, 75, 35, 65, 85, 40, 50, 60, 70, 45, 55, 65, 75, 35, 45, 55, 65, 40, 50, 60, 70, 50, 60, 70, 80, 45, 55, 65, 75, 40, 50, 60, 70].map((height, i) => (
+                        <div
+                          key={i}
+                          className="w-1 bg-sky-300 rounded-full transition-all hover:bg-sky-400"
+                          style={{ height: `${height}%` }}
+                        />
+                      ))}
+                    </div>
+                    <div className="flex justify-between mt-1.5 text-xs text-gray-500 font-medium">
+                      <span>0:00</span>
+                      <span>0:15</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -6862,18 +7103,25 @@ function ProfileViewPage({
         {/* Partner Preferences Section */}
         {activeSection === 'partner' && (
           <>
-            <section className="bg-white rounded-2xl shadow-sm border border-rose-100/50 p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-gradient-to-br from-[#880E4F] to-[#AD1457] rounded-xl flex items-center justify-center shadow-md">
-                  <Heart size={20} className="text-white" />
+            <section className="bg-white rounded-2xl shadow-sm border border-rose-100/50 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-rose-200/60">
+              {/* Header with gradient accent */}
+              <div className="relative px-5 pt-5 pb-4">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#880E4F] via-[#AD1457] to-rose-500" />
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-[#880E4F] to-[#AD1457] rounded-xl flex items-center justify-center shadow-md ring-1 ring-[#880E4F]/20">
+                    <Heart size={20} className="text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-bold text-gray-800 tracking-tight">Partner Preferences Match</h2>
+                    <p className="text-xs text-gray-400 mt-0.5">How your profile matches their preferences</p>
+                  </div>
                 </div>
-                <div>
-                  <h2 className="text-xl font-bold text-gray-800">Partner Preferences Match</h2>
-                  <p className="text-sm text-gray-500">How your profile matches their preferences</p>
-                </div>
+                {/* Subtle separator line */}
+                <div className="absolute bottom-0 left-5 right-5 h-px bg-gradient-to-r from-transparent via-gray-200/80 to-transparent" />
               </div>
           
-          <div className="space-y-4">
+          {/* Content */}
+          <div className="px-5 pb-5 pt-2 space-y-2">
             <PreferenceMatchRow 
               label="Age" 
               theirPref={`${extendedData.partnerPreferences.minAge} - ${extendedData.partnerPreferences.maxAge} years`}
@@ -6900,12 +7148,12 @@ function ProfileViewPage({
             />
           </div>
           
-          <div className="mt-6 p-4 bg-gradient-to-r from-rose-50 to-pink-50 rounded-xl">
+          <div className="mx-5 mb-5 p-4 bg-gradient-to-r from-rose-50 to-pink-50 rounded-xl border border-rose-100">
             <div className="flex items-center justify-between">
-              <span className="text-gray-700 font-medium">Overall Match</span>
-              <span className="text-rose-600 font-bold">{matchCount}/{totalPreferences} criteria met</span>
+              <span className="text-gray-700 font-semibold text-sm">Overall Match</span>
+              <span className="text-rose-600 font-bold text-sm">{matchCount}/{totalPreferences} criteria met</span>
             </div>
-            <div className="mt-2 h-2 bg-white rounded-full overflow-hidden">
+            <div className="mt-2 h-2 bg-white rounded-full overflow-hidden shadow-inner">
               <div 
                 className="h-full bg-gradient-to-r from-[#880E4F] to-[#AD1457] rounded-full transition-all"
                 style={{ width: `${(matchCount / totalPreferences) * 100}%` }}
@@ -6915,70 +7163,103 @@ function ProfileViewPage({
         </section>
 
             {/* Trust & Verification Breakdown */}
-            <section className="bg-white rounded-2xl shadow-sm border border-rose-100/50 p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center">
-                  <ShieldCheck size={20} className="text-emerald-600" />
+            <section className="bg-white rounded-2xl shadow-sm border border-rose-100/50 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-rose-200/60">
+              {/* Header with gradient accent */}
+              <div className="relative px-5 pt-5 pb-4">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-400 via-green-500 to-teal-500" />
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-100 to-green-100 rounded-xl flex items-center justify-center shadow-sm ring-1 ring-emerald-200/50">
+                    <ShieldCheck size={20} className="text-emerald-600" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-bold text-gray-800 tracking-tight">Trust & Verification</h2>
+                    <p className="text-xs text-gray-400 mt-0.5">How this profile has been verified</p>
+                  </div>
                 </div>
-                <div>
-                  <h2 className="text-lg font-bold text-gray-800">Trust & Verification</h2>
-                  <p className="text-sm text-gray-500">How this profile has been verified</p>
-                </div>
+                {/* Subtle separator line */}
+                <div className="absolute bottom-0 left-5 right-5 h-px bg-gradient-to-r from-transparent via-gray-200/80 to-transparent" />
               </div>
               
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                <VerificationBadge label="Aadhaar Card" verified={extendedData.verifications.aadhaar} />
-                <VerificationBadge label="Phone Number" verified={extendedData.verifications.phone} />
-                <VerificationBadge label="Email Address" verified={extendedData.verifications.email} />
-                <VerificationBadge label="LinkedIn" verified={extendedData.verifications.linkedin} />
-                <VerificationBadge label="Selfie Video" verified={extendedData.verifications.selfieVideo} />
-                <VerificationBadge label="Income Proof" verified={extendedData.verifications.income} />
+              {/* Content */}
+              <div className="px-5 pb-5 pt-2">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                  <VerificationBadge label="Aadhaar Card" verified={extendedData.verifications.aadhaar} />
+                  <VerificationBadge label="Phone Number" verified={extendedData.verifications.phone} />
+                  <VerificationBadge label="Email Address" verified={extendedData.verifications.email} />
+                  <VerificationBadge label="LinkedIn" verified={extendedData.verifications.linkedin} />
+                  <VerificationBadge label="Selfie Video" verified={extendedData.verifications.selfieVideo} />
+                  <VerificationBadge label="Income Proof" verified={extendedData.verifications.income} />
+                </div>
               </div>
             </section>
 
             {/* Location Section */}
-            <section className="bg-white rounded-2xl shadow-sm border border-rose-100/50 p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-rose-100 rounded-xl flex items-center justify-center">
-                  <MapPin size={20} className="text-rose-600" />
+            <section className="bg-white rounded-2xl shadow-sm border border-rose-100/50 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-rose-200/60">
+              {/* Header with gradient accent */}
+              <div className="relative px-5 pt-5 pb-4">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-400 via-pink-500 to-red-400" />
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-rose-100 to-pink-100 rounded-xl flex items-center justify-center shadow-sm ring-1 ring-rose-200/50">
+                    <MapPin size={20} className="text-rose-600" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-bold text-gray-800 tracking-tight">Location</h2>
+                    <p className="text-xs text-gray-400 mt-0.5">Where they're based</p>
+                  </div>
                 </div>
-                <h2 className="text-lg font-bold text-gray-800">Location</h2>
+                {/* Subtle separator line */}
+                <div className="absolute bottom-0 left-5 right-5 h-px bg-gradient-to-r from-transparent via-gray-200/80 to-transparent" />
               </div>
-              <div className="flex items-start gap-4">
-                <div className="flex-1">
-                  <p className="text-gray-800 font-medium">{profile.city}, {profile.state}</p>
-                  <p className="text-gray-500 text-sm">{profile.country}</p>
-                </div>
-                <div className="w-24 h-24 bg-gradient-to-br from-rose-100 to-pink-100 rounded-xl flex items-center justify-center">
-                  <MapPin size={32} className="text-rose-400" />
+              
+              {/* Content */}
+              <div className="px-5 pb-5 pt-2">
+                <div className="flex items-start gap-4">
+                  <div className="flex-1">
+                    <p className="text-gray-800 font-semibold text-lg">{profile.city}, {profile.state}</p>
+                    <p className="text-gray-500 text-sm mt-0.5">{profile.country}</p>
+                  </div>
+                  <div className="w-24 h-24 bg-gradient-to-br from-rose-100 to-pink-100 rounded-xl flex items-center justify-center ring-1 ring-rose-200/30">
+                    <MapPin size={32} className="text-rose-400" />
+                  </div>
                 </div>
               </div>
             </section>
 
             {/* Icebreaker Prompts */}
-            <section className="bg-white rounded-2xl shadow-sm border border-rose-100/50 p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center">
-                  <MessageCircle size={20} className="text-amber-600" />
+            <section className="bg-white rounded-2xl shadow-sm border border-rose-100/50 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-rose-200/60">
+              {/* Header with gradient accent */}
+              <div className="relative px-5 pt-5 pb-4">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-orange-500 to-yellow-500" />
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-amber-100 to-orange-100 rounded-xl flex items-center justify-center shadow-sm ring-1 ring-amber-200/50">
+                    <MessageCircle size={20} className="text-amber-600" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-bold text-gray-800 tracking-tight">Icebreakers</h2>
+                    <p className="text-xs text-gray-400 mt-0.5">Start a conversation with {profile.name.split(' ')[0]}</p>
+                  </div>
                 </div>
-                <div>
-                  <h2 className="text-lg font-bold text-gray-800">Icebreakers</h2>
-                  <p className="text-sm text-gray-500">Start a conversation with {profile.name.split(' ')[0]}</p>
-                </div>
+                {/* Subtle separator line */}
+                <div className="absolute bottom-0 left-5 right-5 h-px bg-gradient-to-r from-transparent via-gray-200/80 to-transparent" />
               </div>
               
-              <div className="space-y-3">
-                {icebreakers.slice(0, 4).map((prompt, i) => (
-                  <button
-                    key={i}
-                    className="w-full p-4 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl text-left hover:from-amber-100 hover:to-orange-100 transition-all group border border-amber-100"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-700 group-hover:text-amber-700">{prompt}</span>
-                      <ArrowRight size={18} className="text-amber-400 group-hover:text-amber-600 group-hover:translate-x-1 transition-all" />
-                    </div>
-                  </button>
-                ))}
+              {/* Content */}
+              <div className="px-5 pb-5 pt-2">
+                <div className="space-y-2.5">
+                  {icebreakers.slice(0, 4).map((prompt, i) => (
+                    <button
+                      key={i}
+                      className="relative w-full p-4 bg-gradient-to-br from-amber-50 via-orange-50 to-amber-50 rounded-2xl text-left hover:from-amber-100 hover:via-orange-100 hover:to-amber-100 active:from-amber-150 active:via-orange-150 transition-all duration-200 ease-out group border border-amber-100/80 hover:border-amber-200/80 hover:shadow-md active:shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 hover:scale-[1.01] active:scale-[0.99] overflow-hidden"
+                    >
+                      {/* Shimmer effect on hover */}
+                      <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500 ease-out pointer-events-none" />
+                      <div className="flex items-center justify-between relative z-10">
+                        <span className="text-gray-700 group-hover:text-amber-800 font-medium transition-colors">{prompt}</span>
+                        <ArrowRight size={18} className="text-amber-400 group-hover:text-amber-600 group-hover:translate-x-1 transition-all duration-200" />
+                      </div>
+                    </button>
+                  ))}
+                </div>
               </div>
             </section>
           </>
@@ -6994,35 +7275,48 @@ function ProfileViewPage({
 
       </div>
 
-      {/* Bottom Sticky Action Bar - Mobile Only */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-rose-100 shadow-lg z-50 md:hidden">
-        <div className="max-w-4xl mx-auto px-4 py-3 flex items-center gap-3">
+      {/* Bottom Sticky Action Bar - Mobile Only - Enhanced for Touch */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white/[0.98] backdrop-blur-lg border-t border-[#F8BBD9]/60 shadow-[0_-8px_30px_-12px_rgba(136,14,79,0.2)] z-50 md:hidden safe-area-inset-bottom">
+        <div className="max-w-4xl mx-auto px-4 py-3.5 flex items-center gap-3">
           {interestSent ? (
-            <div className="flex-1 flex items-center justify-center gap-2 py-3 bg-emerald-50 text-emerald-700 rounded-xl font-medium">
-              <Check size={20} /> Interest Sent
+            <div className="flex-1 flex items-center justify-center gap-2.5 py-4 bg-gradient-to-br from-emerald-50 via-emerald-100 to-emerald-50 text-emerald-700 rounded-2xl font-semibold border border-emerald-200/80 shadow-sm">
+              <Check size={22} className="text-emerald-600" /> Interest Sent
             </div>
           ) : (
             <button
               onClick={() => sendInterest(profile)}
-              className="flex-1 py-3 bg-gradient-to-r from-[#880E4F] to-[#AD1457] text-white rounded-xl font-medium hover:from-[#5D0F3A] hover:to-[#880E4F] transition-all flex items-center justify-center gap-2 shadow-lg"
+              className="relative flex-1 py-4 bg-gradient-to-br from-[#880E4F] via-[#AD1457] to-[#C2185B] text-white rounded-2xl font-semibold active:from-[#4A0E25] active:via-[#6B0D3C] active:to-[#880E4F] transition-all duration-200 ease-out flex items-center justify-center gap-2.5 shadow-xl shadow-[#880E4F]/40 active:shadow-lg active:shadow-[#880E4F]/35 active:scale-[0.98] min-h-[60px] overflow-hidden"
             >
-              <Heart size={20} /> Send Interest
+              {/* Touch ripple effect overlay */}
+              <span className="absolute inset-0 active:bg-white/10 pointer-events-none rounded-2xl" />
+              <Heart size={22} className="transition-transform duration-150 active:scale-90 relative z-10" />
+              <span className="relative z-10 text-base">Send Interest</span>
             </button>
           )}
           <button
             onClick={() => shortlistProfile(profile.userId)}
-            className={`p-3 rounded-xl font-medium transition-all ${
+            className={`relative p-4 rounded-2xl font-semibold transition-all duration-200 ease-out min-h-[60px] min-w-[60px] flex items-center justify-center active:scale-95 ${
               shortlisted.includes(profile.userId)
-                ? 'bg-amber-100 text-amber-700'
-                : 'bg-gray-100 text-gray-700 hover:bg-amber-50 hover:text-amber-600'
+                ? 'bg-gradient-to-br from-amber-100 via-amber-200 to-amber-100 text-amber-800 border-2 border-amber-300/80 shadow-lg shadow-amber-200/40 active:shadow-md'
+                : 'bg-white text-[#880E4F] border border-[#F8BBD9]/80 shadow-sm active:shadow-xs active:bg-[#FCE4EC]'
             }`}
           >
-            {shortlisted.includes(profile.userId) ? <Bookmark size={22} className="fill-current" /> : <Bookmark size={22} />}
+            {/* Touch ripple effect overlay */}
+            <span className="absolute inset-0 active:bg-[#880E4F]/5 pointer-events-none rounded-2xl" />
+            {shortlisted.includes(profile.userId) ? (
+              <Bookmark size={24} className="fill-amber-600 text-amber-600 relative z-10" />
+            ) : (
+              <Bookmark size={24} className="relative z-10" />
+            )}
           </button>
-          <button className="p-3 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-all">
-            <Share2 size={22} />
+          <button className="relative p-4 bg-white text-[#880E4F] rounded-2xl font-semibold transition-all duration-200 ease-out shadow-sm border border-[#F8BBD9]/80 min-h-[60px] min-w-[60px] flex items-center justify-center active:scale-95 active:shadow-xs active:bg-[#FCE4EC]">
+            {/* Touch ripple effect overlay */}
+            <span className="absolute inset-0 active:bg-[#880E4F]/5 pointer-events-none rounded-2xl" />
+            <Share2 size={24} className="relative z-10" />
           </button>
         </div>
+        {/* Safe area spacer for iOS devices */}
+        <div className="h-[env(safe-area-inset-bottom)]" />
       </div>
 
       {/* Desktop Bottom Padding to account for fixed bar */}
@@ -7032,31 +7326,84 @@ function ProfileViewPage({
 }
 
 // Helper Components for ProfileViewPage
-function InfoRow({ label, value }: { label: string; value: string }) {
+
+// Icon mapping for different field types
+const fieldIcons: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+  'Age': Calendar,
+  'Height': Ruler,
+  'Marital Status': Heart,
+  'Mother Tongue': Globe,
+  'Religion': Sparkles,
+  'Caste': Users,
+  'Gothra': Star,
+  'Rashi': Star,
+  'Nakshatra': Star,
+  'Manglik': Sparkles,
+  'Birth Time': Clock,
+  'Birth Place': MapPin,
+  'Education': GraduationCap,
+  'College': Building,
+  'Occupation': Briefcase,
+  'Company': Building,
+  'Annual Income': IndianRupee,
+  "Father's Occupation": User,
+  "Mother's Occupation": User,
+  'Siblings': Users,
+  'Family Type': Users,
+  'Family Values': Heart,
+  'Family Status': Award,
+  'Diet': Heart,
+  'Drinking': Heart,
+  'Smoking': Heart,
+  'Blood Group': Heart,
+};
+
+function InfoRow({ label, value, icon }: { label: string; value: string; icon?: React.ComponentType<{ size?: number; className?: string }> }) {
+  const IconComponent = icon || fieldIcons[label];
+  
   return (
-    <div className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
-      <span className="text-gray-500 text-sm">{label}</span>
-      <span className="text-gray-800 font-medium text-sm">{value}</span>
+    <div className="group relative flex items-center gap-2 py-2.5 px-3.5 bg-gradient-to-r from-gray-50/80 to-gray-50/40 rounded-xl hover:from-rose-50/80 hover:to-pink-50/40 transition-all duration-300 ease-out hover:shadow-sm hover:shadow-rose-100/50 border border-transparent hover:border-rose-100/50 hover:-translate-y-0.5">
+      {/* Subtle background pattern on hover */}
+      <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[radial-gradient(circle_at_right_center,rgba(136,14,79,0.03),transparent_70%)]" />
+      
+      {/* Icon */}
+      {IconComponent && (
+        <div className="flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-lg bg-white/80 group-hover:bg-white shadow-sm group-hover:shadow transition-all duration-300">
+          <IconComponent size={14} className="text-gray-400 group-hover:text-[#880E4F] transition-colors duration-300" />
+        </div>
+      )}
+      
+      {/* Label */}
+      <span className="text-gray-500 text-sm w-24 shrink-0 font-medium leading-relaxed group-hover:text-gray-600 transition-colors">{label}</span>
+      
+      {/* Separator */}
+      <span className="text-gray-300 group-hover:text-rose-300 transition-colors duration-300">:</span>
+      
+      {/* Value */}
+      <span className="text-gray-800 font-semibold text-sm flex-1 leading-relaxed group-hover:text-[#880E4F] transition-colors duration-300">{value}</span>
+      
+      {/* Subtle right accent on hover */}
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-0.5 h-0 group-hover:h-4 bg-gradient-to-b from-[#880E4F] to-[#AD1457] rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100" />
     </div>
   );
 }
 
 function PreferenceMatchRow({ label, theirPref, yourValue, matches }: { label: string; theirPref: string; yourValue: string; matches: boolean }) {
   return (
-    <div className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0">
+    <div className="flex items-center justify-between py-2 px-3 bg-gray-50/50 rounded-lg hover:bg-gray-50 transition-colors">
       <div>
-        <p className="text-gray-800 font-medium">{label}</p>
-        <p className="text-gray-500 text-sm">Their preference: {theirPref}</p>
+        <p className="text-gray-800 font-medium text-sm">{label}</p>
+        <p className="text-gray-500 text-xs">Pref: {theirPref}</p>
       </div>
       <div className="flex items-center gap-2">
-        <span className="text-gray-600 text-sm">{yourValue}</span>
+        <span className="text-gray-600 text-xs">{yourValue}</span>
         {matches ? (
-          <div className="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center">
-            <Check size={14} className="text-emerald-600" />
+          <div className="w-5 h-5 bg-emerald-100 rounded-full flex items-center justify-center">
+            <Check size={12} className="text-emerald-600" />
           </div>
         ) : (
-          <div className="w-6 h-6 bg-rose-100 rounded-full flex items-center justify-center">
-            <X size={14} className="text-rose-600" />
+          <div className="w-5 h-5 bg-rose-100 rounded-full flex items-center justify-center">
+            <X size={12} className="text-rose-600" />
           </div>
         )}
       </div>
@@ -7066,17 +7413,17 @@ function PreferenceMatchRow({ label, theirPref, yourValue, matches }: { label: s
 
 function VerificationBadge({ label, verified }: { label: string; verified: boolean }) {
   return (
-    <div className={`p-3 rounded-xl flex items-center gap-2 ${verified ? 'bg-emerald-50 border border-emerald-100' : 'bg-gray-50 border border-gray-100'}`}>
+    <div className={`p-2 rounded-lg flex items-center gap-1.5 ${verified ? 'bg-emerald-50 border border-emerald-100' : 'bg-gray-50 border border-gray-100'}`}>
       {verified ? (
-        <div className="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center">
-          <Check size={14} className="text-emerald-600" />
+        <div className="w-4 h-4 bg-emerald-100 rounded-full flex items-center justify-center">
+          <Check size={10} className="text-emerald-600" />
         </div>
       ) : (
-        <div className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center">
-          <X size={14} className="text-gray-400" />
+        <div className="w-4 h-4 bg-gray-200 rounded-full flex items-center justify-center">
+          <X size={10} className="text-gray-400" />
         </div>
       )}
-      <span className={`text-sm font-medium ${verified ? 'text-emerald-700' : 'text-gray-500'}`}>{label}</span>
+      <span className={`text-xs font-medium ${verified ? 'text-emerald-700' : 'text-gray-500'}`}>{label}</span>
     </div>
   );
 }
